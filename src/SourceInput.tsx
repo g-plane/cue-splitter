@@ -38,7 +38,9 @@ export default function SourceInput() {
   const classes = useStyles()
   const [cueSheetFileName, setCueSheetFileName] = useState('')
   const loadCueSheet = useSplitterStore((state) => state.loadCueSheet)
-  const [frontCoverFileName, setFrontCoverFileName] = useState('')
+  const frontCoverFileName = useSplitterStore(
+    (state) => state.frontCoverFileName
+  )
   const [frontCoverBlobURL, setFrontCoverBlobURL] = useState('')
   const updateFrontCover = useSplitterStore((state) => state.updateFrontCover)
 
@@ -59,8 +61,7 @@ export default function SourceInput() {
 
     const file = event.currentTarget.files?.[0]
     if (file) {
-      updateFrontCover(new Uint8Array(await file.arrayBuffer()))
-      setFrontCoverFileName(file.name)
+      updateFrontCover(new Uint8Array(await file.arrayBuffer()), file.name)
       setFrontCoverBlobURL(URL.createObjectURL(file))
     }
   }

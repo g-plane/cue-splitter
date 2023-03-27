@@ -5,7 +5,8 @@ interface SplitterState {
   cue: CueSheet | null
   loadCueSheet: (content: string) => void
   frontCover: Uint8Array | null
-  updateFrontCover: (picture: Uint8Array) => void
+  frontCoverFileName: string
+  updateFrontCover: (picture: Uint8Array, fileName: string) => void
 }
 
 export const useSplitterStore = create<SplitterState>()((set) => ({
@@ -19,7 +20,8 @@ export const useSplitterStore = create<SplitterState>()((set) => ({
     }
   },
   frontCover: null,
-  updateFrontCover: (picture: Uint8Array) => {
-    set({ frontCover: picture })
+  frontCoverFileName: '',
+  updateFrontCover: (picture: Uint8Array, fileName: string) => {
+    set({ frontCover: picture, frontCoverFileName: fileName })
   },
 }))
