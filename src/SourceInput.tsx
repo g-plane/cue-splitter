@@ -36,6 +36,8 @@ const useStyles = makeStyles({
 
 export default function SourceInput() {
   const classes = useStyles()
+  const audioFileName = useSplitterStore((state) => state.audioFileName)
+  const updateAudioFile = useSplitterStore((state) => state.updateAudioFile)
   const [cueSheetFileName, setCueSheetFileName] = useState('')
   const loadCueSheet = useSplitterStore((state) => state.loadCueSheet)
   const frontCoverFileName = useSplitterStore(
@@ -43,6 +45,15 @@ export default function SourceInput() {
   )
   const [frontCoverBlobURL, setFrontCoverBlobURL] = useState('')
   const updateFrontCover = useSplitterStore((state) => state.updateFrontCover)
+
+  async function handleAudioFileChange(
+    event: React.ChangeEvent<HTMLInputElement>
+  ) {
+    const file = event.currentTarget.files?.[0]
+    if (file) {
+      updateAudioFile(new Uint8Array(await file.arrayBuffer()), file.name)
+    }
+  }
 
   async function handleCueSheetChange(
     event: React.ChangeEvent<HTMLInputElement>
@@ -73,9 +84,14 @@ export default function SourceInput() {
           <MusicNote224Regular />
           Audio File
         </Label>
-        <Text italic>Please choose.</Text>
+        <Text italic={!audioFileName}>{audioFileName || 'Please choose.'}</Text>
         <label>
-          <input className={classes.hidden} type="file" accept="audio/*" />
+          <input
+            className={classes.hidden}
+            type="file"
+            accept="audio/*"
+            onChange={handleAudioFileChange}
+          />
           <Button as="a">Choose audio file...</Button>
         </label>
       </div>
