@@ -4,8 +4,7 @@ import { create } from 'zustand'
 
 interface SplitterState {
   audioFile: Uint8Array | null
-  audioFileName: string
-  updateAudioFile: (file: Uint8Array, fileName: string) => void
+  updateAudioFile: (file: Uint8Array) => void
   cue: CueSheet | null
   loadCueSheet: (content: string) => void
   frontCover: Uint8Array | null
@@ -16,8 +15,8 @@ interface SplitterState {
 export const useSplitterStore = create<SplitterState>()((set) => ({
   audioFile: null,
   audioFileName: '',
-  updateAudioFile: (file: Uint8Array, fileName: string) => {
-    set({ audioFile: file, audioFileName: fileName })
+  updateAudioFile: (file: Uint8Array) => {
+    set({ audioFile: file })
   },
   cue: null,
   loadCueSheet: (content: string) => {
@@ -37,14 +36,12 @@ export const useSplitterStore = create<SplitterState>()((set) => ({
 
 export async function splitAudio({
   audioFile,
-  audioFileName,
   cue,
   track,
   frontCover,
   frontCoverFileName,
 }: {
   audioFile: Uint8Array
-  audioFileName: string
   cue: CueSheet
   track: Track
   frontCover: Uint8Array | null
@@ -85,11 +82,13 @@ export async function splitAudio({
     args.push(`--picture=${frontCoverFileName}`)
   }
 
-  const outputFileName = 'out.flac'
-  args.push('-o', outputFileName)
-  args.push(audioFileName)
+  const inputFileName = 'input.flac'
+  const outputFileName = 'output.flac'
 
-  const inputFiles = new Map([[audioFileName, audioFile]])
+  args.push('-o', outputFileName)
+  args.push(inputFileName)
+
+  const inputFiles = new Map([[inputFileName, audioFile]])
   if (frontCover && frontCoverFileName) {
     inputFiles.set(frontCoverFileName, frontCover)
   }

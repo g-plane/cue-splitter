@@ -36,7 +36,7 @@ const useStyles = makeStyles({
 
 export default function SourceInput() {
   const classes = useStyles()
-  const audioFileName = useSplitterStore((state) => state.audioFileName)
+  const [audioFileName, setAudioFileName] = useState('')
   const updateAudioFile = useSplitterStore((state) => state.updateAudioFile)
   const [cueSheetFileName, setCueSheetFileName] = useState('')
   const loadCueSheet = useSplitterStore((state) => state.loadCueSheet)
@@ -51,7 +51,8 @@ export default function SourceInput() {
   ) {
     const file = event.currentTarget.files?.[0]
     if (file) {
-      updateAudioFile(new Uint8Array(await file.arrayBuffer()), file.name)
+      updateAudioFile(new Uint8Array(await file.arrayBuffer()))
+      setAudioFileName(file.name)
     }
   }
 

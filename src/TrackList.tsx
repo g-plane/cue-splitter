@@ -26,7 +26,6 @@ export default function TrackList() {
   const classes = useStyles()
 
   const audioFile = useSplitterStore((state) => state.audioFile)
-  const audioFileName = useSplitterStore((state) => state.audioFileName)
   const frontCover = useSplitterStore((state) => state.frontCover)
   const frontCoverFileName = useSplitterStore(
     (state) => state.frontCoverFileName
@@ -41,7 +40,6 @@ export default function TrackList() {
 
     const file = await splitAudio({
       audioFile,
-      audioFileName,
       cue,
       track,
       frontCover,
