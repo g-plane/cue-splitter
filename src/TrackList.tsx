@@ -54,6 +54,7 @@ export default function TrackList() {
     link.href = url
     link.download = 'output.flac'
     link.click()
+    link.remove()
     URL.revokeObjectURL(url)
   }
 
