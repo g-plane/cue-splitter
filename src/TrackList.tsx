@@ -95,6 +95,7 @@ export default function TrackList() {
                   <Button
                     appearance="primary"
                     icon={<ArrowDownRegular />}
+                    disabled={!audioFile}
                     onClick={() => handleDownload(track)}
                   >
                     Download
