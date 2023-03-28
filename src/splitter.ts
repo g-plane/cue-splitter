@@ -1,4 +1,5 @@
-import { parse, type CueSheet } from '@gplane/cue'
+import { parse, type CueSheet, type Track } from '@gplane/cue'
+import { flac } from 'flac.wasm'
 import { create } from 'zustand'
 
 interface SplitterState {
@@ -33,3 +34,74 @@ export const useSplitterStore = create<SplitterState>()((set) => ({
     set({ frontCover: picture, frontCoverFileName: fileName })
   },
 }))
+
+export async function splitAudio({
+  audioFile,
+  audioFileName,
+  cue,
+  track,
+  frontCover,
+  frontCoverFileName,
+}: {
+  audioFile: Uint8Array
+  audioFileName: string
+  cue: CueSheet
+  track: Track
+  frontCover: Uint8Array | null
+  frontCoverFileName: string
+}) {
+  const args: string[] = []
+
+  const start = track.indexes.find((index) => index.number === 1)?.startingTime
+  if (start) {
+    args.push(`--skip=${start[0]}:${start[1]}.${start[2]}`)
+  }
+
+  const nextTrack = cue.files[0]?.tracks.find(
+    ({ trackNumber }) => track.trackNumber + 1 === trackNumber
+  )
+  const end = nextTrack?.indexes.find(
+    (index) => index.number === 1
+  )?.startingTime
+  if (end) {
+    args.push(`--until=${end[0]}:${end[1]}.${end[2]}`)
+  }
+
+  if (track.title) {
+    args.push(`--tag=TITLE=${track.title}`)
+  }
+  if (track.performer) {
+    args.push(`--tag=ARTIST=${track.performer}`)
+  }
+  if (cue.title) {
+    args.push(`--tag=ALBUM=${cue.title}`)
+  }
+  if (cue.performer) {
+    args.push(`--tag=ALBUMARTIST=${cue.performer}`)
+    args.push(`--tag=ALBUM ARTIST=${cue.performer}`)
+  }
+  args.push(`--tag=TRACKNUMBER=${track.trackNumber}`)
+  if (frontCover && frontCoverFileName) {
+    args.push(`--picture=${frontCoverFileName}`)
+  }
+
+  const outputFileName = 'out.flac'
+  args.push('-o', outputFileName)
+  args.push(audioFileName)
+
+  const inputFiles = new Map([[audioFileName, audioFile]])
+  if (frontCover && frontCoverFileName) {
+    inputFiles.set(frontCoverFileName, frontCover)
+  }
+
+  const { exitCode, stderr, files } = await flac(args, {
+    inputFiles,
+    outputFileNames: [outputFileName],
+  })
+
+  if (exitCode === 0) {
+    return files.get(outputFileName)
+  } else {
+    console.error(stderr)
+  }
+}

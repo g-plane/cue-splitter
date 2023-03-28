@@ -1,3 +1,4 @@
+import { preloadWorkerAndWASM } from 'flac.wasm/worker'
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App'
@@ -7,3 +8,5 @@ ReactDOM.createRoot(document.querySelector('#root')!).render(
     <App />
   </React.StrictMode>
 )
+
+preloadWorkerAndWASM()

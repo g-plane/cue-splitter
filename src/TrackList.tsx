@@ -1,4 +1,5 @@
 import {
+  Button,
   Table,
   TableBody,
   TableCell,
@@ -8,7 +9,9 @@ import {
   TableRow,
   makeStyles,
 } from '@fluentui/react-components'
-import { useSplitterStore } from './splitter'
+import { ArrowDownRegular } from '@fluentui/react-icons'
+import type { Track } from '@gplane/cue'
+import { splitAudio, useSplitterStore } from './splitter'
 
 const useStyles = makeStyles({
   trackNumberColumn: {
@@ -22,8 +25,39 @@ const useStyles = makeStyles({
 export default function TrackList() {
   const classes = useStyles()
 
+  const audioFile = useSplitterStore((state) => state.audioFile)
+  const audioFileName = useSplitterStore((state) => state.audioFileName)
+  const frontCover = useSplitterStore((state) => state.frontCover)
+  const frontCoverFileName = useSplitterStore(
+    (state) => state.frontCoverFileName
+  )
   const cue = useSplitterStore((state) => state.cue)
   const firstFile = cue?.files[0]
+
+  async function handleDownload(track: Track) {
+    if (!audioFile || !cue) {
+      return
+    }
+
+    const file = await splitAudio({
+      audioFile,
+      audioFileName,
+      cue,
+      track,
+      frontCover,
+      frontCoverFileName,
+    })
+    if (!file) {
+      return
+    }
+
+    const url = URL.createObjectURL(new Blob([file]))
+    const link = document.createElement('a')
+    link.href = url
+    link.download = 'output.flac'
+    link.click()
+    URL.revokeObjectURL(url)
+  }
 
   return (
     <Table>
@@ -56,6 +90,17 @@ export default function TrackList() {
               <TableCell>
                 <TableCellLayout className={classes.trackNumberColumn}>
                   {track.trackNumber}
+                </TableCellLayout>
+              </TableCell>
+              <TableCell>
+                <TableCellLayout>
+                  <Button
+                    appearance="primary"
+                    icon={<ArrowDownRegular />}
+                    onClick={() => handleDownload(track)}
+                  >
+                    Download
+                  </Button>
                 </TableCellLayout>
               </TableCell>
             </TableRow>
