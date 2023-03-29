@@ -11,6 +11,8 @@ interface SplitterState {
   frontCover: Uint8Array | null
   frontCoverFileName: string
   updateFrontCover: (picture: Uint8Array, fileName: string) => void
+  fileNameFormat: string
+  setFileNameFormat: (format: string) => void
   updateTrack: (track: Track) => void
 }
 
@@ -29,6 +31,10 @@ export const useSplitterStore = create<SplitterState>()((set) => ({
   frontCoverFileName: '',
   updateFrontCover: (picture: Uint8Array, fileName: string) => {
     set({ frontCover: picture, frontCoverFileName: fileName })
+  },
+  fileNameFormat: '%artist% - %title%',
+  setFileNameFormat: (format: string) => {
+    set({ fileNameFormat: format })
   },
   updateTrack: (track: Track) => {
     set(
@@ -115,4 +121,27 @@ export async function splitAudio({
     console.error(`stdout ------------${stdout}\nstderr ------------${stderr}`)
     throw new Error('Failed to encode FLAC.')
   }
+}
+
+const RE_PLACEHOLDER = /%(\w+)%/g
+
+export function formatFileName(track: Track, format: string, cue: CueSheet) {
+  const maxLength = Math.max(
+    ...cue.files[0]!.tracks.map(({ trackNumber }) => trackNumber)
+  ).toString().length
+  const data: Record<string, string> = {
+    title: track.title ?? '',
+    artist: track.performer ?? '',
+    album: cue.title ?? '',
+    albumartist: cue.performer ?? '',
+    track: track.trackNumber.toString(),
+    paddedtrack: track.trackNumber.toString().padStart(maxLength, '0'),
+  }
+
+  return (
+    format.replace(
+      RE_PLACEHOLDER,
+      (_, key: string) => data[key.toLowerCase()] ?? ''
+    ) + '.flac'
+  )
 }

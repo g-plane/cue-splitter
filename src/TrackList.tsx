@@ -13,7 +13,7 @@ import {
 import { ArrowDownRegular } from '@fluentui/react-icons'
 import type { Track } from '@gplane/cue'
 import { toast } from 'react-toastify'
-import { splitAudio, useSplitterStore } from './splitter'
+import { formatFileName, splitAudio, useSplitterStore } from './splitter'
 import ArtistEditDialog from './ArtistEditDialog'
 
 const useStyles = makeStyles({
@@ -34,6 +34,7 @@ export default function TrackList() {
     (state) => state.frontCoverFileName
   )
   const cue = useSplitterStore((state) => state.cue)
+  const fileNameFormat = useSplitterStore((state) => state.fileNameFormat)
   const firstFile = cue?.files[0]
 
   async function handleDownload(track: Track) {
@@ -62,7 +63,7 @@ export default function TrackList() {
     const url = URL.createObjectURL(new Blob([file]))
     const link = document.createElement('a')
     link.href = url
-    link.download = 'output.flac'
+    link.download = formatFileName(track, fileNameFormat, cue)
     link.click()
     link.remove()
     URL.revokeObjectURL(url)
