@@ -10,7 +10,7 @@ import {
   TableRow,
   makeStyles,
 } from '@fluentui/react-components'
-import { ArrowDownRegular } from '@fluentui/react-icons'
+import { SaveRegular } from '@fluentui/react-icons'
 import type { Track } from '@gplane/cue'
 import { toast } from 'react-toastify'
 import { formatFileName, splitAudio, useSplitterStore } from './splitter'
@@ -37,7 +37,7 @@ export default function TrackList() {
   const fileNameFormat = useSplitterStore((state) => state.fileNameFormat)
   const firstFile = cue?.files[0]
 
-  async function handleDownload(track: Track) {
+  async function handleSave(track: Track) {
     if (!audioFile || !cue) {
       return
     }
@@ -109,11 +109,11 @@ export default function TrackList() {
                 <TableCellLayout>
                   <Button
                     appearance="primary"
-                    icon={<ArrowDownRegular />}
+                    icon={<SaveRegular />}
                     disabled={!audioFile}
-                    onClick={() => handleDownload(track)}
+                    onClick={() => handleSave(track)}
                   >
-                    Download
+                    Save
                   </Button>
                 </TableCellLayout>
               </TableCell>
