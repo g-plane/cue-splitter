@@ -12,6 +12,7 @@ import {
 } from '@fluentui/react-components'
 import { ArrowDownRegular } from '@fluentui/react-icons'
 import type { Track } from '@gplane/cue'
+import { toast } from 'react-toastify'
 import { splitAudio, useSplitterStore } from './splitter'
 import ArtistEditDialog from './ArtistEditDialog'
 
@@ -40,13 +41,20 @@ export default function TrackList() {
       return
     }
 
-    const file = await splitAudio({
-      audioFile,
-      cue,
-      track,
-      frontCover,
-      frontCoverFileName,
-    })
+    let file
+    try {
+      file = await splitAudio({
+        audioFile,
+        cue,
+        track,
+        frontCover,
+        frontCoverFileName,
+      })
+    } catch (error) {
+      if (error instanceof Error) {
+        toast(error.message, { type: 'error' })
+      }
+    }
     if (!file) {
       return
     }

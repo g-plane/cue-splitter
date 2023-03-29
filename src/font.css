@@ -57,3 +57,7 @@
       format('truetype');
   font-weight: 700;
 }
+
+:root {
+  --toastify-font-family: 'Segoe UI';
+}

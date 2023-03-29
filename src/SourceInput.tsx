@@ -5,6 +5,7 @@ import {
   MusicNote224Regular,
 } from '@fluentui/react-icons'
 import { useState } from 'react'
+import { toast } from 'react-toastify'
 import { useSplitterStore } from './splitter'
 
 const useStyles = makeStyles({
@@ -61,8 +62,14 @@ export default function SourceInput() {
   ) {
     const file = event.currentTarget.files?.[0]
     if (file) {
-      loadCueSheet(await file.text())
-      setCueSheetFileName(file.name)
+      try {
+        loadCueSheet(await file.text())
+        setCueSheetFileName(file.name)
+      } catch (error) {
+        if (error instanceof Error) {
+          toast(error.message, { type: 'error' })
+        }
+      }
     }
   }
 

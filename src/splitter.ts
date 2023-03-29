@@ -22,12 +22,8 @@ export const useSplitterStore = create<SplitterState>()((set) => ({
   },
   cue: null,
   loadCueSheet: (content: string) => {
-    const { sheet, errors } = parse(content)
-    if (errors.length > 0) {
-      console.error(errors)
-    } else {
-      set({ cue: sheet })
-    }
+    const { sheet } = parse(content, { fatal: true })
+    set({ cue: sheet })
   },
   frontCover: null,
   frontCoverFileName: '',
@@ -108,7 +104,7 @@ export async function splitAudio({
     inputFiles.set(frontCoverFileName, frontCover)
   }
 
-  const { exitCode, stderr, files } = await flac(args, {
+  const { exitCode, stdout, stderr, files } = await flac(args, {
     inputFiles,
     outputFileNames: [outputFileName],
   })
@@ -116,6 +112,7 @@ export async function splitAudio({
   if (exitCode === 0) {
     return files.get(outputFileName)
   } else {
-    console.error(stderr)
+    console.error(`stdout ------------${stdout}\nstderr ------------${stderr}`)
+    throw new Error('Failed to encode FLAC.')
   }
 }
