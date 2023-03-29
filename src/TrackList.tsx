@@ -63,7 +63,10 @@ export default function TrackList() {
     const url = URL.createObjectURL(new Blob([file]))
     const link = document.createElement('a')
     link.href = url
-    link.download = formatFileName(track, fileNameFormat, cue)
+    link.download = formatFileName(track, fileNameFormat, cue).replaceAll(
+      '/',
+      ','
+    )
     link.click()
     link.remove()
     URL.revokeObjectURL(url)

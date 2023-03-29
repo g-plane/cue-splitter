@@ -8,13 +8,16 @@ import {
   DialogTrigger,
   Button,
   Input,
+  Text,
   Tooltip,
   makeStyles,
+  Link,
 } from '@fluentui/react-components'
 import { EditFilled, EditRegular, bundleIcon } from '@fluentui/react-icons'
 import type { Track } from '@gplane/cue'
 import { useState } from 'react'
 import { useSplitterStore } from './splitter'
+import { RE_CV, extractCVs } from './text'
 
 const EditIcon = bundleIcon(EditFilled, EditRegular)
 
@@ -25,9 +28,16 @@ interface Props {
 const useStyles = makeStyles({
   form: {
     height: 'min-content',
+    display: 'flex',
+    flexDirection: 'column',
+    rowGap: '4px',
   },
   input: {
     width: '100%',
+  },
+  cv: {
+    display: 'flex',
+    columnGap: '4px',
   },
 })
 
@@ -36,6 +46,9 @@ export default function ArtistEditDialog({ track }: Props) {
   const [open, setOpen] = useState(false)
   const updateTrack = useSplitterStore((state) => state.updateTrack)
   const [artist, setArtist] = useState(track?.performer ?? '')
+
+  const originalArtist = track?.performer
+  const hasCV = originalArtist && originalArtist.match(RE_CV)
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
@@ -65,6 +78,17 @@ export default function ArtistEditDialog({ track }: Props) {
                 value={artist}
                 onChange={(_, data) => setArtist(data.value)}
               />
+              {hasCV && (
+                <div className={classes.cv}>
+                  <Text>Character Voice name(s) detected.</Text>
+                  <Link
+                    as="button"
+                    onClick={() => setArtist(extractCVs(originalArtist))}
+                  >
+                    Extract
+                  </Link>
+                </div>
+              )}
             </DialogContent>
             <DialogActions>
               <Button appearance="secondary" onClick={handleCancel}>
