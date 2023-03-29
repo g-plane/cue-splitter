@@ -24,10 +24,10 @@ interface Props {
 
 const useStyles = makeStyles({
   form: {
-    display: 'flex',
-    flexDirection: 'column',
-    rowGap: '8px',
     height: 'min-content',
+  },
+  input: {
+    width: '100%',
   },
 })
 
@@ -61,6 +61,7 @@ export default function ArtistEditDialog({ track }: Props) {
             <DialogTitle>Edit Artist</DialogTitle>
             <DialogContent className={classes.form}>
               <Input
+                className={classes.input}
                 value={artist}
                 onChange={(_, data) => setArtist(data.value)}
               />
