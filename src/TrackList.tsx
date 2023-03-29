@@ -3,6 +3,7 @@ import {
   Table,
   TableBody,
   TableCell,
+  TableCellActions,
   TableCellLayout,
   TableHeader,
   TableHeaderCell,
@@ -12,6 +13,7 @@ import {
 import { ArrowDownRegular } from '@fluentui/react-icons'
 import type { Track } from '@gplane/cue'
 import { splitAudio, useSplitterStore } from './splitter'
+import ArtistEditDialog from './ArtistEditDialog'
 
 const useStyles = makeStyles({
   trackNumberColumn: {
@@ -82,6 +84,9 @@ export default function TrackList() {
               </TableCell>
               <TableCell>
                 <TableCellLayout>{track.performer}</TableCellLayout>
+                <TableCellActions>
+                  <ArtistEditDialog track={track} />
+                </TableCellActions>
               </TableCell>
               <TableCell>
                 <TableCellLayout>{track.title}</TableCellLayout>

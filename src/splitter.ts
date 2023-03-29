@@ -1,5 +1,6 @@
 import { parse, type CueSheet, type Track } from '@gplane/cue'
 import { flac } from 'flac.wasm'
+import produce from 'immer'
 import { create } from 'zustand'
 
 interface SplitterState {
@@ -10,6 +11,7 @@ interface SplitterState {
   frontCover: Uint8Array | null
   frontCoverFileName: string
   updateFrontCover: (picture: Uint8Array, fileName: string) => void
+  updateTrack: (track: Track) => void
 }
 
 export const useSplitterStore = create<SplitterState>()((set) => ({
@@ -31,6 +33,19 @@ export const useSplitterStore = create<SplitterState>()((set) => ({
   frontCoverFileName: '',
   updateFrontCover: (picture: Uint8Array, fileName: string) => {
     set({ frontCover: picture, frontCoverFileName: fileName })
+  },
+  updateTrack: (track: Track) => {
+    set(
+      produce<SplitterState>((state) => {
+        const tracks = state.cue!.files[0]!.tracks
+        const index = tracks.findIndex(
+          ({ trackNumber }) => trackNumber === track.trackNumber
+        )
+        if (index >= 0) {
+          tracks[index] = track
+        }
+      })
+    )
   },
 }))
 

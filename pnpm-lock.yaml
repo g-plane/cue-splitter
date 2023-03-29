@@ -8,6 +8,7 @@ specifiers:
   '@types/react-dom': ^18.0.11
   '@vitejs/plugin-react-swc': ^3.0.0
   flac.wasm: ^0.3.0
+  immer: ^9.0.21
   prettier: ^2.8.7
   react: ^18.2.0
   react-dom: ^18.2.0
@@ -19,9 +20,10 @@ dependencies:
   '@fluentui/react-components': 9.18.6_dgjuf3aqqre24bd27wvsbnxpoe
   '@fluentui/react-icons': 2.0.198_react@18.2.0
   flac.wasm: 0.3.0
+  immer: 9.0.21
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
-  zustand: 4.3.6_react@18.2.0
+  zustand: 4.3.6_immer@9.0.21+react@18.2.0
 
 devDependencies:
   '@gplane/tsconfig': 6.0.0
@@ -1724,6 +1726,10 @@ packages:
       function-bind: 1.1.1
     dev: true
 
+  /immer/9.0.21:
+    resolution: {integrity: sha512-bc4NBHqOqSfRW7POMkHd51LvClaeMXpm8dx0e8oE2GORbq5aRK7Bxl4FyzVLdGtLmvLKL7BTDBG5ACQm4HWjTA==}
+    dev: false
+
   /is-core-module/2.11.0:
     resolution: {integrity: sha512-RRjxlvLDkD1YJwDbroBHMb+cukurkDWNyHx7D3oNB5x9rb5ogcksMC5wHCadcXoo67gVr/+3GFySh3134zi6rw==}
     dependencies:
@@ -1910,7 +1916,7 @@ packages:
       fsevents: 2.3.2
     dev: true
 
-  /zustand/4.3.6_react@18.2.0:
+  /zustand/4.3.6_immer@9.0.21+react@18.2.0:
     resolution: {integrity: sha512-6J5zDxjxLE+yukC2XZWf/IyWVKnXT9b9HUv09VJ/bwGCpKNcaTqp7Ws28Xr8jnbvnZcdRaidztAPsXFBIqufiw==}
     engines: {node: '>=12.7.0'}
     peerDependencies:
@@ -1922,6 +1928,7 @@ packages:
       react:
         optional: true
     dependencies:
+      immer: 9.0.21
       react: 18.2.0
       use-sync-external-store: 1.2.0_react@18.2.0
     dev: false
