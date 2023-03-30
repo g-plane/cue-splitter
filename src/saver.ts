@@ -2,6 +2,9 @@ import type { CueSheet, Track } from '@gplane/cue'
 import { splitAudio } from './splitter'
 import { formatFileName } from './text'
 
+const missingFrontCoverMessage =
+  "You did't choose a front cover image. Do you want to continue?"
+
 export async function saveSingle({
   track,
   audioFile,
@@ -17,6 +20,10 @@ export async function saveSingle({
   frontCover: Uint8Array | null
   frontCoverFileName: string
 }) {
+  if (!frontCover && !confirm(missingFrontCoverMessage)) {
+    return
+  }
+
   const file = await splitAudio({
     audioFile,
     cue,
@@ -55,6 +62,10 @@ export async function saveMultipleToFolder({
   frontCover: Uint8Array | null
   frontCoverFileName: string
 }) {
+  if (!frontCover && !confirm(missingFrontCoverMessage)) {
+    return
+  }
+
   const dirHandle = await window.showDirectoryPicker({ mode: 'readwrite' })
 
   await Promise.all(
