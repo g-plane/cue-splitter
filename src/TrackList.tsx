@@ -17,10 +17,9 @@ import {
 import { SaveRegular } from '@fluentui/react-icons'
 import type { Track } from '@gplane/cue'
 import { toast } from 'react-toastify'
-import { splitAudio, useSplitterStore } from './splitter'
+import { useSplitterStore } from './splitter'
 import TrackEditDialog from './TrackEditDialog'
-import { formatFileName } from './text'
-import { saveMultipleToFolder } from './saver'
+import { saveMultipleToFolder, saveSingle } from './saver'
 
 const IS_FS_ACCESS_SUPPORTED = 'showDirectoryPicker' in window
 
@@ -84,12 +83,12 @@ export default function TrackList() {
       return
     }
 
-    let file
     try {
-      file = await splitAudio({
+      await saveSingle({
         audioFile,
-        cue,
         track,
+        fileNameFormat,
+        cue,
         frontCover,
         frontCoverFileName,
       })
@@ -98,20 +97,6 @@ export default function TrackList() {
         toast(error.message, { type: 'error' })
       }
     }
-    if (!file) {
-      return
-    }
-
-    const url = URL.createObjectURL(new Blob([file]))
-    const link = document.createElement('a')
-    link.href = url
-    link.download = formatFileName(track, fileNameFormat, cue).replaceAll(
-      '/',
-      ','
-    )
-    link.click()
-    link.remove()
-    URL.revokeObjectURL(url)
   }
 
   async function handleSaveToFolder() {

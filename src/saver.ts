@@ -2,6 +2,44 @@ import type { CueSheet, Track } from '@gplane/cue'
 import { splitAudio } from './splitter'
 import { formatFileName } from './text'
 
+export async function saveSingle({
+  track,
+  audioFile,
+  fileNameFormat,
+  cue,
+  frontCover,
+  frontCoverFileName,
+}: {
+  track: Track
+  audioFile: Uint8Array
+  fileNameFormat: string
+  cue: CueSheet
+  frontCover: Uint8Array | null
+  frontCoverFileName: string
+}) {
+  const file = await splitAudio({
+    audioFile,
+    cue,
+    track,
+    frontCover,
+    frontCoverFileName,
+  })
+  if (!file) {
+    throw new Error("FLAC file isn't encoded successfully.")
+  }
+
+  const url = URL.createObjectURL(new Blob([file]))
+  const link = document.createElement('a')
+  link.href = url
+  link.download = formatFileName(track, fileNameFormat, cue).replaceAll(
+    '/',
+    ','
+  )
+  link.click()
+  link.remove()
+  URL.revokeObjectURL(url)
+}
+
 export async function saveMultipleToFolder({
   tracks,
   audioFile,
