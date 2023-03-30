@@ -12,8 +12,9 @@ import {
 import { SaveRegular } from '@fluentui/react-icons'
 import type { Track } from '@gplane/cue'
 import { toast } from 'react-toastify'
-import { formatFileName, splitAudio, useSplitterStore } from './splitter'
+import { splitAudio, useSplitterStore } from './splitter'
 import TrackEditDialog from './TrackEditDialog'
+import { formatFileName } from './text'
 
 const useStyles = makeStyles({
   trackNumberColumn: {
