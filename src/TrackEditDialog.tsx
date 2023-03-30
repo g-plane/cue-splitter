@@ -70,8 +70,8 @@ export default function TrackEditDialog({ track }: Props) {
     setOpen(false)
   }
 
-  function handleCancel() {
-    setOpen(false)
+  function handleOpenChange(open: boolean) {
+    setOpen(open)
     setTitle(track?.title ?? '')
     setArtist(track?.performer ?? '')
     setAlbum(cue?.title ?? '')
@@ -79,7 +79,7 @@ export default function TrackEditDialog({ track }: Props) {
   }
 
   return (
-    <Dialog open={open} onOpenChange={(_, data) => setOpen(data.open)}>
+    <Dialog open={open} onOpenChange={(_, data) => handleOpenChange(data.open)}>
       <DialogTrigger disableButtonEnhancement>
         <Button icon={<EditRegular />}>Edit</Button>
       </DialogTrigger>
@@ -139,7 +139,7 @@ export default function TrackEditDialog({ track }: Props) {
               </div>
             </DialogContent>
             <DialogActions>
-              <Button appearance="secondary" onClick={handleCancel}>
+              <Button appearance="secondary" onClick={() => setOpen(false)}>
                 Cancel
               </Button>
               <Button type="submit" appearance="primary">
