@@ -12,6 +12,7 @@ import {
   makeStyles,
   Link,
   Label,
+  mergeClasses,
 } from '@fluentui/react-components'
 import { EditRegular } from '@fluentui/react-icons'
 import type { Track } from '@gplane/cue'
@@ -42,6 +43,9 @@ const useStyles = makeStyles({
     display: 'flex',
     columnGap: '4px',
   },
+  hidden: {
+    display: 'none',
+  },
 })
 
 export default function TrackEditDialog({ track }: Props) {
@@ -56,8 +60,7 @@ export default function TrackEditDialog({ track }: Props) {
   const [album, setAlbum] = useState(cue?.title ?? '')
   const [albumArtist, setAlbumArtist] = useState(cue?.performer ?? '')
 
-  const originalArtist = track?.performer
-  const hasCV = originalArtist && originalArtist.match(RE_CV)
+  const hasCV = artist.match(RE_CV)
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
@@ -100,17 +103,21 @@ export default function TrackEditDialog({ track }: Props) {
                   value={artist}
                   onChange={(_, data) => setArtist(data.value)}
                 />
-                {hasCV && (
-                  <div className={classes.cv}>
-                    <Text>Character Voice name(s) detected.</Text>
-                    <Link
-                      as="button"
-                      onClick={() => setArtist(extractCVs(originalArtist))}
-                    >
-                      Extract
-                    </Link>
-                  </div>
-                )}
+                <div
+                  className={mergeClasses(
+                    classes.cv,
+                    hasCV ? '' : classes.hidden
+                  )}
+                >
+                  <Text>Character Voice name(s) detected.</Text>
+                  <Link
+                    as="button"
+                    tabIndex={hasCV ? 0 : -1}
+                    onClick={() => setArtist(extractCVs(artist))}
+                  >
+                    Extract
+                  </Link>
+                </div>
               </div>
               <div className={classes.formItem}>
                 <Label weight="semibold">Album</Label>
