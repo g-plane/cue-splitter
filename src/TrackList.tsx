@@ -3,7 +3,6 @@ import {
   Table,
   TableBody,
   TableCell,
-  TableCellActions,
   TableCellLayout,
   TableHeader,
   TableHeaderCell,
@@ -14,14 +13,18 @@ import { SaveRegular } from '@fluentui/react-icons'
 import type { Track } from '@gplane/cue'
 import { toast } from 'react-toastify'
 import { formatFileName, splitAudio, useSplitterStore } from './splitter'
-import ArtistEditDialog from './ArtistEditDialog'
+import TrackEditDialog from './TrackEditDialog'
 
 const useStyles = makeStyles({
   trackNumberColumn: {
     width: '100px',
   },
   operationsColumn: {
-    width: '120px',
+    width: '200px',
+  },
+  operationBtns: {
+    display: 'flex',
+    columnGap: '8px',
   },
 })
 
@@ -96,9 +99,6 @@ export default function TrackList() {
               </TableCell>
               <TableCell>
                 <TableCellLayout>{track.performer}</TableCellLayout>
-                <TableCellActions>
-                  <ArtistEditDialog track={track} />
-                </TableCellActions>
               </TableCell>
               <TableCell>
                 <TableCellLayout>{track.title}</TableCellLayout>
@@ -110,14 +110,17 @@ export default function TrackList() {
               </TableCell>
               <TableCell>
                 <TableCellLayout>
-                  <Button
-                    appearance="primary"
-                    icon={<SaveRegular />}
-                    disabled={!audioFile}
-                    onClick={() => handleSave(track)}
-                  >
-                    Save
-                  </Button>
+                  <div className={classes.operationBtns}>
+                    <Button
+                      appearance="primary"
+                      icon={<SaveRegular />}
+                      disabled={!audioFile}
+                      onClick={() => handleSave(track)}
+                    >
+                      Save
+                    </Button>
+                    <TrackEditDialog track={track} />
+                  </div>
                 </TableCellLayout>
               </TableCell>
             </TableRow>

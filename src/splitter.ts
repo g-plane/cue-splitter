@@ -8,6 +8,8 @@ interface SplitterState {
   updateAudioFile: (file: Uint8Array) => void
   cue: CueSheet | null
   loadCueSheet: (content: string) => void
+  updateAlbum: (album: string) => void
+  updateAlbumArtist: (albumArtist: string) => void
   frontCover: Uint8Array | null
   frontCoverFileName: string
   updateFrontCover: (picture: Uint8Array, fileName: string) => void
@@ -26,6 +28,14 @@ export const useSplitterStore = create<SplitterState>()((set) => ({
   loadCueSheet: (content: string) => {
     const { sheet } = parse(content, { fatal: true })
     set({ cue: sheet })
+  },
+  updateAlbum: (album: string) => {
+    set((state) => (state.cue ? { cue: { ...state.cue, title: album } } : {}))
+  },
+  updateAlbumArtist: (albumArtist: string) => {
+    set((state) =>
+      state.cue ? { cue: { ...state.cue, performer: albumArtist } } : {}
+    )
   },
   frontCover: null,
   frontCoverFileName: '',
