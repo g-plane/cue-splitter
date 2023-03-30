@@ -23,6 +23,11 @@ import { saveMultipleToFolder, saveSingle } from './saver'
 
 const IS_FS_ACCESS_SUPPORTED = 'showDirectoryPicker' in window
 
+interface Props {
+  selectedTracks: Set<number>
+  onSelectedTracksChange(selectedTracks: Set<number>): void
+}
+
 const columns: TableColumnDefinition<Track>[] = [
   createTableColumn({ columnId: 'album' }),
   createTableColumn({ columnId: 'artist' }),
@@ -48,7 +53,10 @@ const useStyles = makeStyles({
   },
 })
 
-export default function TrackList() {
+export default function TrackList({
+  selectedTracks,
+  onSelectedTracksChange,
+}: Props) {
   const classes = useStyles()
 
   const audioFile = useSplitterStore((state) => state.audioFile)
@@ -75,7 +83,14 @@ export default function TrackList() {
       items: firstFile?.tracks ?? [],
       getRowId: ({ trackNumber }) => trackNumber,
     },
-    [useTableSelection({ selectionMode: 'multiselect' })]
+    [
+      useTableSelection({
+        selectionMode: 'multiselect',
+        selectedItems: selectedTracks,
+        onSelectionChange: (_, { selectedItems }) =>
+          onSelectedTracksChange(selectedItems as Set<number>),
+      }),
+    ]
   )
 
   async function handleSave(track: Track) {

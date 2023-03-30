@@ -8,6 +8,10 @@ import { useState } from 'react'
 import { toast } from 'react-toastify'
 import { useSplitterStore } from './splitter'
 
+interface Props {
+  onCueSheetFileChange(): void
+}
+
 const useStyles = makeStyles({
   hidden: {
     display: 'none',
@@ -35,7 +39,7 @@ const useStyles = makeStyles({
   },
 })
 
-export default function SourceInput() {
+export default function SourceInput({ onCueSheetFileChange }: Props) {
   const classes = useStyles()
   const [audioFileName, setAudioFileName] = useState('')
   const updateAudioFile = useSplitterStore((state) => state.updateAudioFile)
@@ -65,6 +69,7 @@ export default function SourceInput() {
       try {
         loadCueSheet(await file.text())
         setCueSheetFileName(file.name)
+        onCueSheetFileChange()
       } catch (error) {
         if (error instanceof Error) {
           toast(error.message, { type: 'error' })
