@@ -190,13 +190,13 @@ export default function TrackList() {
         {IS_FS_ACCESS_SUPPORTED && (
           <Button
             appearance="primary"
-            disabled={!someRowsSelected}
+            disabled={!someRowsSelected || !audioFile}
             onClick={handleSaveToFolder}
           >
             Save selected to local folder
           </Button>
         )}
-        <Button appearance="primary" disabled={!someRowsSelected}>
+        <Button appearance="primary" disabled={!someRowsSelected || !audioFile}>
           Save selected as a ZIP package
         </Button>
       </div>
