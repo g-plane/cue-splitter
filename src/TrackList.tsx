@@ -187,9 +187,6 @@ export default function TrackList() {
         </TableBody>
       </Table>
       <div className={classes.batchOperationBtns}>
-        <Button appearance="primary" disabled={!someRowsSelected}>
-          Save selected as a ZIP package
-        </Button>
         {IS_FS_ACCESS_SUPPORTED && (
           <Button
             appearance="primary"
@@ -199,6 +196,9 @@ export default function TrackList() {
             Save selected to local folder
           </Button>
         )}
+        <Button appearance="primary" disabled={!someRowsSelected}>
+          Save selected as a ZIP package
+        </Button>
       </div>
     </div>
   )
