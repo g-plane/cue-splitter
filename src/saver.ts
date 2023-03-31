@@ -137,7 +137,7 @@ export async function saveMultipleAsZip({
   const url = URL.createObjectURL(new Blob(chunks))
   const link = document.createElement('a')
   link.href = url
-  link.download = 'tracks.zip'
+  link.download = (cue.performer?.replaceAll('/', ',') ?? 'tracks') + '.zip'
   link.click()
   link.remove()
   URL.revokeObjectURL(url)
