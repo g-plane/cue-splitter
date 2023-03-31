@@ -23,6 +23,9 @@ import { saveMultipleToFolder, saveSingle } from './saver'
 
 const IS_FS_ACCESS_SUPPORTED = 'showDirectoryPicker' in window
 
+const messageMissingFrontCover =
+  "You did't choose a front cover image. Do you want to continue?"
+
 interface Props {
   selectedTracks: Set<number>
   onSelectedTracksChange(selectedTracks: Set<number>): void
@@ -97,6 +100,9 @@ export default function TrackList({
     if (!audioFile || !cue) {
       return
     }
+    if (!frontCover && !confirm(messageMissingFrontCover)) {
+      return
+    }
 
     try {
       await saveSingle({
@@ -116,6 +122,9 @@ export default function TrackList({
 
   async function handleSaveToFolder() {
     if (!audioFile || !firstFile) {
+      return
+    }
+    if (!frontCover && !confirm(messageMissingFrontCover)) {
       return
     }
 
