@@ -8,6 +8,7 @@ specifiers:
   '@types/react-dom': ^18.0.11
   '@types/wicg-file-system-access': ^2020.9.5
   '@vitejs/plugin-react-swc': ^3.0.0
+  fflate: ^0.7.4
   flac.wasm: ^0.3.0
   immer: ^9.0.21
   prettier: ^2.8.7
@@ -21,6 +22,7 @@ specifiers:
 dependencies:
   '@fluentui/react-components': 9.18.6_dgjuf3aqqre24bd27wvsbnxpoe
   '@fluentui/react-icons': 2.0.198_react@18.2.0
+  fflate: 0.7.4
   flac.wasm: 0.3.0
   immer: 9.0.21
   react: 18.2.0
@@ -1715,6 +1717,10 @@ packages:
       '@esbuild/win32-ia32': 0.17.13
       '@esbuild/win32-x64': 0.17.13
     dev: true
+
+  /fflate/0.7.4:
+    resolution: {integrity: sha512-5u2V/CDW15QM1XbbgS+0DfPxVB+jUKhWEKuuFuHncbk3tEEqzmoXL+2KyOFuKGqOnmdIy0/davWF1CkuwtibCw==}
+    dev: false
 
   /flac.wasm/0.3.0:
     resolution: {integrity: sha512-8lRN1r9joToUJdVjH7FtIptgVVHdwiVRsZu54SzMfJmG/Jw/5C3qiOWLoJUGln1QpSErY1kM1m8Z1JgYQPgbbA==}

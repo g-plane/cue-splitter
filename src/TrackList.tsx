@@ -19,7 +19,7 @@ import type { Track } from '@gplane/cue'
 import { toast } from 'react-toastify'
 import { useSplitterStore } from './splitter'
 import TrackEditDialog from './TrackEditDialog'
-import { saveMultipleToFolder, saveSingle } from './saver'
+import { saveMultipleAsZip, saveMultipleToFolder, saveSingle } from './saver'
 
 const IS_FS_ACCESS_SUPPORTED = 'showDirectoryPicker' in window
 
@@ -147,6 +147,32 @@ export default function TrackList({
     }
   }
 
+  async function handleSaveAsZip() {
+    if (!audioFile || !firstFile) {
+      return
+    }
+    if (!frontCover && !confirm(messageMissingFrontCover)) {
+      return
+    }
+
+    try {
+      await saveMultipleAsZip({
+        audioFile,
+        tracks: firstFile.tracks.filter(({ trackNumber }) =>
+          isRowSelected(trackNumber)
+        ),
+        fileNameFormat,
+        cue,
+        frontCover,
+        frontCoverFileName,
+      })
+    } catch (error) {
+      if (error instanceof Error) {
+        toast(error.message, { type: 'error' })
+      }
+    }
+  }
+
   return (
     <div>
       <Table>
@@ -220,8 +246,12 @@ export default function TrackList({
             Save selected to local folder
           </Button>
         )}
-        <Button appearance="primary" disabled={!someRowsSelected || !audioFile}>
-          Save selected as a ZIP package
+        <Button
+          appearance="primary"
+          disabled={!someRowsSelected || !audioFile}
+          onClick={handleSaveAsZip}
+        >
+          Save selected as a ZIP archive
         </Button>
       </div>
     </div>
