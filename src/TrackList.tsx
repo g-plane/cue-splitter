@@ -13,6 +13,12 @@ import {
   createTableColumn,
   useTableFeatures,
   useTableSelection,
+  Menu,
+  MenuItem,
+  MenuList,
+  MenuPopover,
+  MenuTrigger,
+  SplitButton,
 } from '@fluentui/react-components'
 import { SaveRegular } from '@fluentui/react-icons'
 import type { Track } from '@gplane/cue'
@@ -147,7 +153,7 @@ export default function TrackList({
     }
   }
 
-  async function handleSaveAsZip() {
+  async function handleSaveAsZip(topLevelFolder: boolean) {
     if (!audioFile || !firstFile) {
       return
     }
@@ -165,6 +171,7 @@ export default function TrackList({
         cue,
         frontCover,
         frontCoverFileName,
+        topLevelFolder,
       })
     } catch (error) {
       if (error instanceof Error) {
@@ -246,13 +253,27 @@ export default function TrackList({
             Save selected to local folder
           </Button>
         )}
-        <Button
-          appearance="primary"
-          disabled={!someRowsSelected || !audioFile}
-          onClick={handleSaveAsZip}
-        >
-          Save selected as a ZIP archive
-        </Button>
+        <Menu positioning="below-end">
+          <MenuTrigger disableButtonEnhancement>
+            {(triggerProps) => (
+              <SplitButton
+                appearance="primary"
+                menuButton={triggerProps}
+                disabled={!someRowsSelected || !audioFile}
+                primaryActionButton={{ onClick: () => handleSaveAsZip(false) }}
+              >
+                Save selected as a ZIP archive
+              </SplitButton>
+            )}
+          </MenuTrigger>
+          <MenuPopover>
+            <MenuList>
+              <MenuItem onClick={() => handleSaveAsZip(true)}>
+                Save as a ZIP archive with top level folder
+              </MenuItem>
+            </MenuList>
+          </MenuPopover>
+        </Menu>
       </div>
     </div>
   )

@@ -86,6 +86,7 @@ export async function saveMultipleAsZip({
   cue,
   frontCover,
   frontCoverFileName,
+  topLevelFolder,
 }: {
   tracks: Track[]
   audioFile: Uint8Array
@@ -93,7 +94,10 @@ export async function saveMultipleAsZip({
   cue: CueSheet
   frontCover: Uint8Array | null
   frontCoverFileName: string
+  topLevelFolder: boolean
 }) {
+  const folderName = normalizeFileName(cue.title ?? 'tracks')
+
   const chunks = await new Promise<Uint8Array[]>(async (resolve, reject) => {
     const chunks: Uint8Array[] = []
     const zip = new Zip((error, data, final) => {
@@ -122,7 +126,8 @@ export async function saveMultipleAsZip({
         }
 
         const zipItem = new ZipPassThrough(
-          normalizeFileName(formatFileName(track, fileNameFormat, cue))
+          (topLevelFolder ? folderName + '/' : '') +
+            normalizeFileName(formatFileName(track, fileNameFormat, cue))
         )
         zip.add(zipItem)
         zipItem.push(file, true)
@@ -134,7 +139,7 @@ export async function saveMultipleAsZip({
   const url = URL.createObjectURL(new Blob(chunks))
   const link = document.createElement('a')
   link.href = url
-  link.download = normalizeFileName(cue.performer ?? 'tracks') + '.zip'
+  link.download = `${folderName}.zip`
   link.click()
   link.remove()
   URL.revokeObjectURL(url)
