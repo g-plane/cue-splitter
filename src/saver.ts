@@ -32,10 +32,7 @@ export async function saveSingle({
   const url = URL.createObjectURL(new Blob([file]))
   const link = document.createElement('a')
   link.href = url
-  link.download = formatFileName(track, fileNameFormat, cue).replaceAll(
-    '/',
-    ','
-  )
+  link.download = normalizeFileName(formatFileName(track, fileNameFormat, cue))
   link.click()
   link.remove()
   URL.revokeObjectURL(url)
@@ -72,7 +69,7 @@ export async function saveMultipleToFolder({
       }
 
       const fileHandle = await dirHandle.getFileHandle(
-        formatFileName(track, fileNameFormat, cue).replaceAll('/', ','),
+        normalizeFileName(formatFileName(track, fileNameFormat, cue)),
         { create: true }
       )
       const stream = await fileHandle.createWritable()
@@ -125,7 +122,7 @@ export async function saveMultipleAsZip({
         }
 
         const zipItem = new ZipPassThrough(
-          formatFileName(track, fileNameFormat, cue).replaceAll('/', ',')
+          normalizeFileName(formatFileName(track, fileNameFormat, cue))
         )
         zip.add(zipItem)
         zipItem.push(file, true)
@@ -137,8 +134,12 @@ export async function saveMultipleAsZip({
   const url = URL.createObjectURL(new Blob(chunks))
   const link = document.createElement('a')
   link.href = url
-  link.download = (cue.performer?.replaceAll('/', ',') ?? 'tracks') + '.zip'
+  link.download = normalizeFileName(cue.performer ?? 'tracks') + '.zip'
   link.click()
   link.remove()
   URL.revokeObjectURL(url)
+}
+
+function normalizeFileName(fileName: string) {
+  return fileName.replaceAll('/', ',')
 }
