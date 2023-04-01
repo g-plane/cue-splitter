@@ -7,6 +7,7 @@ import {
 import { useState } from 'react'
 import { toast } from 'react-toastify'
 import { useSplitterStore } from './splitter'
+import { calcImageSize } from './image'
 
 interface Props {
   onCueSheetFileChange(): void
@@ -26,9 +27,7 @@ const useStyles = makeStyles({
   },
   frontCoverFormItem: {
     display: 'flex',
-    '& img': {
-      marginLeft: '8px',
-    },
+    columnGap: '8px',
   },
   formLabel: {
     display: 'flex',
@@ -50,6 +49,7 @@ export default function SourceInput({ onCueSheetFileChange }: Props) {
   )
   const [frontCoverBlobURL, setFrontCoverBlobURL] = useState('')
   const updateFrontCover = useSplitterStore((state) => state.updateFrontCover)
+  const [frontCoverSize, setFrontCoverSize] = useState({ width: 0, height: 0 })
 
   async function handleAudioFileChange({
     currentTarget,
@@ -88,7 +88,9 @@ export default function SourceInput({ onCueSheetFileChange }: Props) {
     const file = currentTarget.files?.[0]
     if (file) {
       updateFrontCover(new Uint8Array(await file.arrayBuffer()), file.name)
-      setFrontCoverBlobURL(URL.createObjectURL(file))
+      const blobURL = URL.createObjectURL(file)
+      setFrontCoverBlobURL(blobURL)
+      setFrontCoverSize(await calcImageSize(blobURL))
       currentTarget.files = null
     }
   }
@@ -149,7 +151,13 @@ export default function SourceInput({ onCueSheetFileChange }: Props) {
           </label>
         </div>
         {frontCoverBlobURL && (
-          <img src={frontCoverBlobURL} alt="Front Cover" height={75} />
+          <>
+            <img src={frontCoverBlobURL} alt="Front Cover" height={75} />
+            <div>
+              <div>Width: {frontCoverSize.width}</div>
+              <div>Height: {frontCoverSize.height}</div>
+            </div>
+          </>
         )}
       </div>
     </div>
