@@ -2,6 +2,8 @@
 
 Split audio into different tracks with Cue Sheet in comprehensive UI.
 
+Try it: [https://split.gplane.win](https://split.gplane.win)
+
 ## Motivation
 
 I often download some anime music, but they comes with a big and single audio file with a Cue Sheet file instead of one audio file per track.
