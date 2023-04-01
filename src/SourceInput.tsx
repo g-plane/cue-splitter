@@ -51,25 +51,27 @@ export default function SourceInput({ onCueSheetFileChange }: Props) {
   const [frontCoverBlobURL, setFrontCoverBlobURL] = useState('')
   const updateFrontCover = useSplitterStore((state) => state.updateFrontCover)
 
-  async function handleAudioFileChange(
-    event: React.ChangeEvent<HTMLInputElement>
-  ) {
-    const file = event.currentTarget.files?.[0]
+  async function handleAudioFileChange({
+    currentTarget,
+  }: React.ChangeEvent<HTMLInputElement>) {
+    const file = currentTarget.files?.[0]
     if (file) {
       updateAudioFile(new Uint8Array(await file.arrayBuffer()))
       setAudioFileName(file.name)
+      currentTarget.files = null
     }
   }
 
-  async function handleCueSheetChange(
-    event: React.ChangeEvent<HTMLInputElement>
-  ) {
-    const file = event.currentTarget.files?.[0]
+  async function handleCueSheetChange({
+    currentTarget,
+  }: React.ChangeEvent<HTMLInputElement>) {
+    const file = currentTarget.files?.[0]
     if (file) {
       try {
         loadCueSheet(await file.text())
         setCueSheetFileName(file.name)
         onCueSheetFileChange()
+        currentTarget.files = null
       } catch (error) {
         if (error instanceof Error) {
           toast(error.message, { type: 'error' })
@@ -78,15 +80,16 @@ export default function SourceInput({ onCueSheetFileChange }: Props) {
     }
   }
 
-  async function handleFrontCoverChange(
-    event: React.ChangeEvent<HTMLInputElement>
-  ) {
+  async function handleFrontCoverChange({
+    currentTarget,
+  }: React.ChangeEvent<HTMLInputElement>) {
     URL.revokeObjectURL(frontCoverBlobURL)
 
-    const file = event.currentTarget.files?.[0]
+    const file = currentTarget.files?.[0]
     if (file) {
       updateFrontCover(new Uint8Array(await file.arrayBuffer()), file.name)
       setFrontCoverBlobURL(URL.createObjectURL(file))
+      currentTarget.files = null
     }
   }
 
