@@ -1,6 +1,7 @@
 {
   "name": "cue-splitter",
   "private": true,
+  "description": "Split audio into different tracks with Cue Sheet in comprehensive UI.",
   "version": "0.0.0",
   "license": "GPL-2.0",
   "type": "module",
