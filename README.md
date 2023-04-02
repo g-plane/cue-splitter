@@ -17,6 +17,7 @@ My goal is to finish this task in browsers, so everyone can use it without any i
 - Track information can be edited before splitting.
 - Single or multiple tracks can be splitted and downloaded. If you selected multiple tracks and you're using Chromium-based browser, you can save them to a local folder without unarchiving a zip file.
 - Character Voice names in artist field will be detected and can be extracted with one click.
+- Dragging and dropping audio file/Cue Sheet file/front cover picture file (or even all of them) to the page is supported.
 
 ## Related Projects
 

@@ -4,7 +4,7 @@ import {
   Image24Regular,
   MusicNote224Regular,
 } from '@fluentui/react-icons'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 import { useSplitterStore } from './splitter'
 import { calcImageSize } from './image'
@@ -50,6 +50,64 @@ export default function SourceInput({ onCueSheetFileChange }: Props) {
   const [frontCoverBlobURL, setFrontCoverBlobURL] = useState('')
   const updateFrontCover = useSplitterStore((state) => state.updateFrontCover)
   const [frontCoverSize, setFrontCoverSize] = useState({ width: 0, height: 0 })
+
+  useEffect(() => {
+    function preventNavigation(event: DragEvent) {
+      event.preventDefault()
+    }
+
+    async function handler(event: DragEvent) {
+      event.preventDefault()
+      if (!event.dataTransfer) {
+        return
+      }
+      const files = [...event.dataTransfer.files]
+
+      const audioFile = files.find((file) => file.type.startsWith('audio/'))
+      if (audioFile) {
+        updateAudioFile(new Uint8Array(await audioFile.arrayBuffer()))
+        setAudioFileName(audioFile.name)
+      }
+
+      const cueSheetFile = files.find(
+        (file) =>
+          file.name.toLowerCase().endsWith('.cue') ||
+          file.type === 'application/x-cue'
+      )
+      if (cueSheetFile) {
+        try {
+          loadCueSheet(await cueSheetFile.text())
+          setCueSheetFileName(cueSheetFile.name)
+          onCueSheetFileChange()
+        } catch (error) {
+          if (error instanceof Error) {
+            toast(error.message, { type: 'error' })
+          }
+        }
+      }
+
+      const frontCoverFile = files.find((file) =>
+        file.type.startsWith('image/')
+      )
+      if (frontCoverFile) {
+        URL.revokeObjectURL(frontCoverBlobURL)
+        updateFrontCover(
+          new Uint8Array(await frontCoverFile.arrayBuffer()),
+          frontCoverFile.name
+        )
+        const blobURL = URL.createObjectURL(frontCoverFile)
+        setFrontCoverBlobURL(blobURL)
+        setFrontCoverSize(await calcImageSize(blobURL))
+      }
+    }
+
+    document.body.addEventListener('dragover', preventNavigation)
+    document.body.addEventListener('drop', handler)
+    return () => {
+      document.body.removeEventListener('dragover', preventNavigation)
+      document.body.removeEventListener('drop', handler)
+    }
+  }, [])
 
   async function handleAudioFileChange({
     currentTarget,
