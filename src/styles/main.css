@@ -1,0 +1,9 @@
+@import './font.css';
+
+:root {
+  --toastify-font-family: 'Segoe UI';
+}
+
+body {
+  min-height: calc(100vh - 2 * 8px);
+}
