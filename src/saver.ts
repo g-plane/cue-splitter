@@ -12,10 +12,10 @@ export async function saveSingle({
   frontCoverFileName,
 }: {
   track: Track
-  audioFile: Uint8Array
+  audioFile: Blob
   fileNameFormat: string
   cue: CueSheet
-  frontCover: Uint8Array | null
+  frontCover: Blob | null
   frontCoverFileName: string
 }) {
   const file = await splitAudio({
@@ -47,10 +47,10 @@ export async function saveMultipleToFolder({
   frontCoverFileName,
 }: {
   tracks: Track[]
-  audioFile: Uint8Array
+  audioFile: Blob
   fileNameFormat: string
   cue: CueSheet
-  frontCover: Uint8Array | null
+  frontCover: Blob | null
   frontCoverFileName: string
 }) {
   const dirHandle = await window.showDirectoryPicker({ mode: 'readwrite' })
@@ -89,10 +89,10 @@ export async function saveMultipleAsZip({
   topLevelFolder,
 }: {
   tracks: Track[]
-  audioFile: Uint8Array
+  audioFile: Blob
   fileNameFormat: string
   cue: CueSheet
-  frontCover: Uint8Array | null
+  frontCover: Blob | null
   frontCoverFileName: string
   topLevelFolder: boolean
 }) {

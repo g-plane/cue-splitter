@@ -4,15 +4,15 @@ import produce from 'immer'
 import { create } from 'zustand'
 
 interface SplitterState {
-  audioFile: Uint8Array | null
-  updateAudioFile: (file: Uint8Array) => void
+  audioFile: Blob | null
+  updateAudioFile: (file: Blob) => void
   cue: CueSheet | null
   loadCueSheet: (content: string) => void
   updateAlbum: (album: string) => void
   updateAlbumArtist: (albumArtist: string) => void
-  frontCover: Uint8Array | null
+  frontCover: Blob | null
   frontCoverFileName: string
-  updateFrontCover: (picture: Uint8Array, fileName: string) => void
+  updateFrontCover: (picture: Blob, fileName: string) => void
   fileNameFormat: string
   setFileNameFormat: (format: string) => void
   updateTrack: (track: Track) => void
@@ -21,7 +21,7 @@ interface SplitterState {
 export const useSplitterStore = create<SplitterState>()((set) => ({
   audioFile: null,
   audioFileName: '',
-  updateAudioFile: (file: Uint8Array) => {
+  updateAudioFile: (file: Blob) => {
     set({ audioFile: file })
   },
   cue: null,
@@ -39,7 +39,7 @@ export const useSplitterStore = create<SplitterState>()((set) => ({
   },
   frontCover: null,
   frontCoverFileName: '',
-  updateFrontCover: (picture: Uint8Array, fileName: string) => {
+  updateFrontCover: (picture: Blob, fileName: string) => {
     set({ frontCover: picture, frontCoverFileName: fileName })
   },
   fileNameFormat: '%artist% - %title%',
@@ -68,10 +68,10 @@ export async function splitAudio({
   frontCover,
   frontCoverFileName,
 }: {
-  audioFile: Uint8Array
+  audioFile: Blob
   cue: CueSheet
   track: Track
-  frontCover: Uint8Array | null
+  frontCover: Blob | null
   frontCoverFileName: string
 }) {
   const args: string[] = []
@@ -115,9 +115,14 @@ export async function splitAudio({
   args.push('-o', outputFileName)
   args.push(inputFileName)
 
-  const inputFiles = new Map([[inputFileName, audioFile]])
+  const inputFiles = new Map([
+    [inputFileName, new Uint8Array(await audioFile.arrayBuffer())],
+  ])
   if (frontCover && frontCoverFileName) {
-    inputFiles.set(frontCoverFileName, frontCover)
+    inputFiles.set(
+      frontCoverFileName,
+      new Uint8Array(await frontCover.arrayBuffer())
+    )
   }
 
   const { exitCode, stdout, stderr, files } = await flac(args, {

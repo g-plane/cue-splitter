@@ -65,7 +65,7 @@ export default function SourceInput({ onCueSheetFileChange }: Props) {
 
       const audioFile = files.find((file) => file.type.startsWith('audio/'))
       if (audioFile) {
-        updateAudioFile(new Uint8Array(await audioFile.arrayBuffer()))
+        updateAudioFile(audioFile)
         setAudioFileName(audioFile.name)
       }
 
@@ -91,10 +91,7 @@ export default function SourceInput({ onCueSheetFileChange }: Props) {
       )
       if (frontCoverFile) {
         URL.revokeObjectURL(frontCoverBlobURL)
-        updateFrontCover(
-          new Uint8Array(await frontCoverFile.arrayBuffer()),
-          frontCoverFile.name
-        )
+        updateFrontCover(frontCoverFile, frontCoverFile.name)
         const blobURL = URL.createObjectURL(frontCoverFile)
         setFrontCoverBlobURL(blobURL)
         setFrontCoverSize(await calcImageSize(blobURL))
@@ -109,12 +106,12 @@ export default function SourceInput({ onCueSheetFileChange }: Props) {
     }
   }, [])
 
-  async function handleAudioFileChange({
+  function handleAudioFileChange({
     currentTarget,
   }: React.ChangeEvent<HTMLInputElement>) {
     const file = currentTarget.files?.[0]
     if (file) {
-      updateAudioFile(new Uint8Array(await file.arrayBuffer()))
+      updateAudioFile(file)
       setAudioFileName(file.name)
       currentTarget.files = null
     }
@@ -145,7 +142,7 @@ export default function SourceInput({ onCueSheetFileChange }: Props) {
 
     const file = currentTarget.files?.[0]
     if (file) {
-      updateFrontCover(new Uint8Array(await file.arrayBuffer()), file.name)
+      updateFrontCover(file, file.name)
       const blobURL = URL.createObjectURL(file)
       setFrontCoverBlobURL(blobURL)
       setFrontCoverSize(await calcImageSize(blobURL))
