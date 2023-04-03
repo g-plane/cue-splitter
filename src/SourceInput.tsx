@@ -104,7 +104,7 @@ export default function SourceInput({ onCueSheetFileChange }: Props) {
       document.body.removeEventListener('dragover', preventNavigation)
       document.body.removeEventListener('drop', handler)
     }
-  }, [])
+  }, [onCueSheetFileChange])
 
   function handleAudioFileChange({
     currentTarget,
