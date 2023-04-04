@@ -7,7 +7,6 @@ import {
 import { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 import { useSplitterStore } from './splitter'
-import { calcImageSize } from './image'
 
 interface Props {
   onCueSheetFileChange(): void
@@ -44,12 +43,8 @@ export default function SourceInput({ onCueSheetFileChange }: Props) {
   const updateAudioFile = useSplitterStore((state) => state.updateAudioFile)
   const [cueSheetFileName, setCueSheetFileName] = useState('')
   const loadCueSheet = useSplitterStore((state) => state.loadCueSheet)
-  const frontCoverFileName = useSplitterStore(
-    (state) => state.frontCoverFileName
-  )
-  const frontCoverBlobURL = useSplitterStore((state) => state.frontCoverBlobURL)
+  const frontCover = useSplitterStore((state) => state.frontCover)
   const updateFrontCover = useSplitterStore((state) => state.updateFrontCover)
-  const [frontCoverSize, setFrontCoverSize] = useState({ width: 0, height: 0 })
 
   useEffect(() => {
     function preventNavigation(event: DragEvent) {
@@ -91,8 +86,6 @@ export default function SourceInput({ onCueSheetFileChange }: Props) {
       )
       if (frontCoverFile) {
         updateFrontCover(frontCoverFile, frontCoverFile.name)
-        const blobURL = URL.createObjectURL(frontCoverFile)
-        setFrontCoverSize(await calcImageSize(blobURL))
       }
     }
 
@@ -139,8 +132,6 @@ export default function SourceInput({ onCueSheetFileChange }: Props) {
     const file = currentTarget.files?.[0]
     if (file) {
       updateFrontCover(file, file.name)
-      const blobURL = URL.createObjectURL(file)
-      setFrontCoverSize(await calcImageSize(blobURL))
       currentTarget.files = null
     }
   }
@@ -187,9 +178,11 @@ export default function SourceInput({ onCueSheetFileChange }: Props) {
             <Image24Regular />
             Front Cover Picture
           </Label>
-          <Text italic={!frontCoverFileName}>
-            {frontCoverFileName || 'Please choose.'}
-          </Text>
+          {frontCover ? (
+            <Text>{frontCover.name}</Text>
+          ) : (
+            <Text italic>Please choose.</Text>
+          )}
           <label>
             <input
               className={classes.hidden}
@@ -200,12 +193,12 @@ export default function SourceInput({ onCueSheetFileChange }: Props) {
             <Button as="a">Choose front cover picture...</Button>
           </label>
         </div>
-        {frontCoverBlobURL && (
+        {frontCover && (
           <>
-            <img src={frontCoverBlobURL} alt="Front Cover" height={75} />
+            <img src={frontCover.blobURL} alt="Front Cover" height={75} />
             <div>
-              <div>Width: {frontCoverSize.width}</div>
-              <div>Height: {frontCoverSize.height}</div>
+              <div>Width: {frontCover.width}</div>
+              <div>Height: {frontCover.height}</div>
             </div>
           </>
         )}

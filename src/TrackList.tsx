@@ -70,9 +70,6 @@ export default function TrackList({
 
   const audioFile = useSplitterStore((state) => state.audioFile)
   const frontCover = useSplitterStore((state) => state.frontCover)
-  const frontCoverFileName = useSplitterStore(
-    (state) => state.frontCoverFileName
-  )
   const cue = useSplitterStore((state) => state.cue)
   const fileNameFormat = useSplitterStore((state) => state.fileNameFormat)
 
@@ -117,7 +114,6 @@ export default function TrackList({
         fileNameFormat,
         cue,
         frontCover,
-        frontCoverFileName,
       })
     } catch (error) {
       if (error instanceof Error) {
@@ -143,7 +139,6 @@ export default function TrackList({
         fileNameFormat,
         cue,
         frontCover,
-        frontCoverFileName,
       })
       toast('Saved.', { type: 'success' })
     } catch (error) {
@@ -170,7 +165,6 @@ export default function TrackList({
         fileNameFormat,
         cue,
         frontCover,
-        frontCoverFileName,
         topLevelFolder,
       })
     } catch (error) {

@@ -3,6 +3,14 @@ import { flac } from 'flac.wasm'
 import produce from 'immer'
 import { create } from 'zustand'
 
+export interface FrontCover {
+  file: Blob
+  blobURL: string
+  name: string
+  width: number
+  height: number
+}
+
 interface SplitterState {
   audioFile: Blob | null
   updateAudioFile: (file: Blob) => void
@@ -10,10 +18,8 @@ interface SplitterState {
   loadCueSheet: (content: string) => void
   updateAlbum: (album: string) => void
   updateAlbumArtist: (albumArtist: string) => void
-  frontCover: Blob | null
-  frontCoverBlobURL: string
-  frontCoverFileName: string
-  updateFrontCover: (picture: Blob, fileName: string) => void
+  frontCover: FrontCover | null
+  updateFrontCover: (picture: Blob, name?: string) => Promise<void>
   fileNameFormat: string
   setFileNameFormat: (format: string) => void
   updateTrack: (track: Track) => void
@@ -39,15 +45,21 @@ export const useSplitterStore = create<SplitterState>()((set, get) => ({
     )
   },
   frontCover: null,
-  frontCoverBlobURL: '',
-  frontCoverFileName: '',
-  updateFrontCover: (picture: Blob, fileName: string) => {
-    URL.revokeObjectURL(get().frontCoverBlobURL)
-    set({
-      frontCover: picture,
-      frontCoverBlobURL: URL.createObjectURL(picture),
-      frontCoverFileName: fileName,
-    })
+  updateFrontCover: async (picture: Blob, name?: string) => {
+    const previous = get().frontCover
+    if (previous) {
+      URL.revokeObjectURL(previous.blobURL)
+    }
+    const { width, height } = await createImageBitmap(picture)
+    set((state) => ({
+      frontCover: {
+        file: picture,
+        blobURL: URL.createObjectURL(picture),
+        name: name ?? state.frontCover?.name ?? '',
+        width,
+        height,
+      },
+    }))
   },
   fileNameFormat: '%artist% - %title%',
   setFileNameFormat: (format: string) => {
@@ -73,13 +85,11 @@ export async function splitAudio({
   cue,
   track,
   frontCover,
-  frontCoverFileName,
 }: {
   audioFile: Blob
   cue: CueSheet
   track: Track
-  frontCover: Blob | null
-  frontCoverFileName: string
+  frontCover: FrontCover | null
 }) {
   const args: string[] = []
 
@@ -112,8 +122,8 @@ export async function splitAudio({
     args.push(`--tag=ALBUM ARTIST=${cue.performer}`)
   }
   args.push(`--tag=TRACKNUMBER=${track.trackNumber}`)
-  if (frontCover && frontCoverFileName) {
-    args.push(`--picture=${frontCoverFileName}`)
+  if (frontCover) {
+    args.push(`--picture=${frontCover.name}`)
   }
 
   const inputFileName = 'input.flac'
@@ -125,10 +135,10 @@ export async function splitAudio({
   const inputFiles = new Map([
     [inputFileName, new Uint8Array(await audioFile.arrayBuffer())],
   ])
-  if (frontCover && frontCoverFileName) {
+  if (frontCover) {
     inputFiles.set(
-      frontCoverFileName,
-      new Uint8Array(await frontCover.arrayBuffer())
+      frontCover.name,
+      new Uint8Array(await frontCover.file.arrayBuffer())
     )
   }
 

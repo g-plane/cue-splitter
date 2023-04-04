@@ -1,6 +1,6 @@
 import type { CueSheet, Track } from '@gplane/cue'
 import { Zip, ZipPassThrough } from 'fflate'
-import { splitAudio } from './splitter'
+import { splitAudio, type FrontCover } from './splitter'
 import { formatFileName } from './text'
 
 export async function saveSingle({
@@ -9,21 +9,18 @@ export async function saveSingle({
   fileNameFormat,
   cue,
   frontCover,
-  frontCoverFileName,
 }: {
   track: Track
   audioFile: Blob
   fileNameFormat: string
   cue: CueSheet
-  frontCover: Blob | null
-  frontCoverFileName: string
+  frontCover: FrontCover | null
 }) {
   const file = await splitAudio({
     audioFile,
     cue,
     track,
     frontCover,
-    frontCoverFileName,
   })
   if (!file) {
     throw new Error("FLAC file isn't encoded successfully.")
@@ -44,14 +41,12 @@ export async function saveMultipleToFolder({
   fileNameFormat,
   cue,
   frontCover,
-  frontCoverFileName,
 }: {
   tracks: Track[]
   audioFile: Blob
   fileNameFormat: string
   cue: CueSheet
-  frontCover: Blob | null
-  frontCoverFileName: string
+  frontCover: FrontCover | null
 }) {
   const dirHandle = await window.showDirectoryPicker({ mode: 'readwrite' })
 
@@ -62,7 +57,6 @@ export async function saveMultipleToFolder({
         cue,
         track,
         frontCover,
-        frontCoverFileName,
       })
       if (!file) {
         return
@@ -85,15 +79,13 @@ export async function saveMultipleAsZip({
   fileNameFormat,
   cue,
   frontCover,
-  frontCoverFileName,
   topLevelFolder,
 }: {
   tracks: Track[]
   audioFile: Blob
   fileNameFormat: string
   cue: CueSheet
-  frontCover: Blob | null
-  frontCoverFileName: string
+  frontCover: FrontCover | null
   topLevelFolder: boolean
 }) {
   const folderName = normalizeFileName(cue.title ?? 'tracks')
@@ -119,7 +111,6 @@ export async function saveMultipleAsZip({
           cue,
           track,
           frontCover,
-          frontCoverFileName,
         })
         if (!file) {
           return
