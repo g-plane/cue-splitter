@@ -7,6 +7,7 @@ import {
 import { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 import { useSplitterStore } from './splitter'
+import FrontCoverResizeDialog from './FrontCoverResizeDialog'
 
 interface Props {
   onCueSheetFileChange(): void
@@ -34,6 +35,11 @@ const useStyles = makeStyles({
     '& svg': {
       marginRight: '2px',
     },
+  },
+  frontCoverSize: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
   },
 })
 
@@ -196,9 +202,12 @@ export default function SourceInput({ onCueSheetFileChange }: Props) {
         {frontCover && (
           <>
             <img src={frontCover.blobURL} alt="Front Cover" height={75} />
-            <div>
-              <div>Width: {frontCover.width}</div>
-              <div>Height: {frontCover.height}</div>
+            <div className={classes.frontCoverSize}>
+              <div>
+                <div>Width: {frontCover.width}</div>
+                <div>Height: {frontCover.height}</div>
+              </div>
+              <FrontCoverResizeDialog />
             </div>
           </>
         )}

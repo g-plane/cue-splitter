@@ -16,7 +16,7 @@ import {
 } from '@fluentui/react-components'
 import { EditRegular } from '@fluentui/react-icons'
 import type { Track } from '@gplane/cue'
-import { useState } from 'react'
+import { useState, type FormEvent } from 'react'
 import { useSplitterStore } from './splitter'
 import { RE_CV, extractCVs } from './text'
 
@@ -62,7 +62,7 @@ export default function TrackEditDialog({ track }: Props) {
 
   const hasCV = artist.match(RE_CV)
 
-  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+  function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
     updateTrack({ ...track, title, performer: artist })
     updateAlbum(album)
