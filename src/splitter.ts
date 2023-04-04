@@ -11,6 +11,7 @@ interface SplitterState {
   updateAlbum: (album: string) => void
   updateAlbumArtist: (albumArtist: string) => void
   frontCover: Blob | null
+  frontCoverBlobURL: string
   frontCoverFileName: string
   updateFrontCover: (picture: Blob, fileName: string) => void
   fileNameFormat: string
@@ -18,7 +19,7 @@ interface SplitterState {
   updateTrack: (track: Track) => void
 }
 
-export const useSplitterStore = create<SplitterState>()((set) => ({
+export const useSplitterStore = create<SplitterState>()((set, get) => ({
   audioFile: null,
   audioFileName: '',
   updateAudioFile: (file: Blob) => {
@@ -38,9 +39,15 @@ export const useSplitterStore = create<SplitterState>()((set) => ({
     )
   },
   frontCover: null,
+  frontCoverBlobURL: '',
   frontCoverFileName: '',
   updateFrontCover: (picture: Blob, fileName: string) => {
-    set({ frontCover: picture, frontCoverFileName: fileName })
+    URL.revokeObjectURL(get().frontCoverBlobURL)
+    set({
+      frontCover: picture,
+      frontCoverBlobURL: URL.createObjectURL(picture),
+      frontCoverFileName: fileName,
+    })
   },
   fileNameFormat: '%artist% - %title%',
   setFileNameFormat: (format: string) => {

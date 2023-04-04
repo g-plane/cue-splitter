@@ -47,7 +47,7 @@ export default function SourceInput({ onCueSheetFileChange }: Props) {
   const frontCoverFileName = useSplitterStore(
     (state) => state.frontCoverFileName
   )
-  const [frontCoverBlobURL, setFrontCoverBlobURL] = useState('')
+  const frontCoverBlobURL = useSplitterStore((state) => state.frontCoverBlobURL)
   const updateFrontCover = useSplitterStore((state) => state.updateFrontCover)
   const [frontCoverSize, setFrontCoverSize] = useState({ width: 0, height: 0 })
 
@@ -90,10 +90,8 @@ export default function SourceInput({ onCueSheetFileChange }: Props) {
         file.type.startsWith('image/')
       )
       if (frontCoverFile) {
-        URL.revokeObjectURL(frontCoverBlobURL)
         updateFrontCover(frontCoverFile, frontCoverFile.name)
         const blobURL = URL.createObjectURL(frontCoverFile)
-        setFrontCoverBlobURL(blobURL)
         setFrontCoverSize(await calcImageSize(blobURL))
       }
     }
@@ -138,13 +136,10 @@ export default function SourceInput({ onCueSheetFileChange }: Props) {
   async function handleFrontCoverChange({
     currentTarget,
   }: React.ChangeEvent<HTMLInputElement>) {
-    URL.revokeObjectURL(frontCoverBlobURL)
-
     const file = currentTarget.files?.[0]
     if (file) {
       updateFrontCover(file, file.name)
       const blobURL = URL.createObjectURL(file)
-      setFrontCoverBlobURL(blobURL)
       setFrontCoverSize(await calcImageSize(blobURL))
       currentTarget.files = null
     }
