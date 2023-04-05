@@ -99,7 +99,7 @@ export default function TrackList({
     ]
   )
 
-  async function handleSave(track: Track) {
+  async function handleSaveSingle(track: Track) {
     if (!audioFile || !cue) {
       return
     }
@@ -107,6 +107,12 @@ export default function TrackList({
       return
     }
 
+    const processing = toast('Processing...', {
+      type: 'info',
+      autoClose: false,
+      closeButton: false,
+      closeOnClick: false,
+    })
     try {
       await saveSingle({
         audioFile,
@@ -119,6 +125,8 @@ export default function TrackList({
       if (error instanceof Error) {
         toast(error.message, { type: 'error' })
       }
+    } finally {
+      toast.dismiss(processing)
     }
   }
 
@@ -130,6 +138,12 @@ export default function TrackList({
       return
     }
 
+    const processing = toast('Processing...', {
+      type: 'info',
+      autoClose: false,
+      closeButton: false,
+      closeOnClick: false,
+    })
     try {
       await saveMultipleToFolder({
         audioFile,
@@ -145,6 +159,8 @@ export default function TrackList({
       if (error instanceof Error) {
         toast(error.message, { type: 'error' })
       }
+    } finally {
+      toast.dismiss(processing)
     }
   }
 
@@ -156,6 +172,12 @@ export default function TrackList({
       return
     }
 
+    const processing = toast('Processing...', {
+      type: 'info',
+      autoClose: false,
+      closeButton: false,
+      closeOnClick: false,
+    })
     try {
       await saveMultipleAsZip({
         audioFile,
@@ -171,6 +193,8 @@ export default function TrackList({
       if (error instanceof Error) {
         toast(error.message, { type: 'error' })
       }
+    } finally {
+      toast.dismiss(processing)
     }
   }
 
@@ -225,7 +249,7 @@ export default function TrackList({
                         appearance="primary"
                         icon={<SaveRegular />}
                         disabled={!audioFile}
-                        onClick={() => handleSave(track)}
+                        onClick={() => handleSaveSingle(track)}
                       >
                         Save
                       </Button>
