@@ -209,9 +209,9 @@ export default function TrackList({
               }
               onClick={toggleAllRows}
             />
-            <TableHeaderCell>Album</TableHeaderCell>
-            <TableHeaderCell>Artist</TableHeaderCell>
             <TableHeaderCell>Title</TableHeaderCell>
+            <TableHeaderCell>Artist</TableHeaderCell>
+            <TableHeaderCell>Album</TableHeaderCell>
             <TableHeaderCell className={classes.trackNumberColumn}>
               Track Number
             </TableHeaderCell>
@@ -229,13 +229,13 @@ export default function TrackList({
                   onClick={(event) => toggleRow(event, track.trackNumber)}
                 />
                 <TableCell>
-                  <TableCellLayout>{cue.title}</TableCellLayout>
+                  <TableCellLayout>{track.title}</TableCellLayout>
                 </TableCell>
                 <TableCell>
                   <TableCellLayout>{track.performer}</TableCellLayout>
                 </TableCell>
                 <TableCell>
-                  <TableCellLayout>{track.title}</TableCellLayout>
+                  <TableCellLayout>{cue.title}</TableCellLayout>
                 </TableCell>
                 <TableCell>
                   <TableCellLayout className={classes.trackNumberColumn}>
