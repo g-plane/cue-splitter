@@ -1,22 +1,22 @@
 import {
-  Dialog,
-  DialogSurface,
-  DialogBody,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-  DialogTrigger,
   Button,
-  makeStyles,
+  Checkbox,
+  Dialog,
+  DialogActions,
+  DialogBody,
+  DialogContent,
+  DialogSurface,
+  DialogTitle,
+  DialogTrigger,
   Label,
   SpinButton,
-  Checkbox,
   type SpinButtonOnChangeData,
+  makeStyles,
 } from '@fluentui/react-components'
-import { useState, type FormEvent } from 'react'
+import { type FormEvent, useState } from 'react'
 import { toast } from 'react-toastify'
-import { useSplitterStore } from './splitter'
 import { resizeImage } from './image'
+import { useSplitterStore } from './splitter'
 
 const useStyles = makeStyles({
   form: {
@@ -83,7 +83,10 @@ export default function FrontCoverResizeDialog() {
   }
 
   return (
-    <Dialog open={open} onOpenChange={(_, { open }) => handleOpenChange(open)}>
+    <Dialog
+      open={open}
+      onOpenChange={(_, { open }) => handleOpenChange(open)}
+    >
       <DialogTrigger disableButtonEnhancement>
         <Button>Resize</Button>
       </DialogTrigger>

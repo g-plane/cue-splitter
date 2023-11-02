@@ -1,4 +1,4 @@
-import { parse, type CueSheet, type Track } from '@gplane/cue'
+import { type CueSheet, type Track, parse } from '@gplane/cue'
 import { flac } from 'flac.wasm'
 import produce from 'immer'
 import { create } from 'zustand'
@@ -86,10 +86,10 @@ export async function splitAudio({
   track,
   frontCover,
 }: {
-  audioFile: Blob
-  cue: CueSheet
-  track: Track
-  frontCover: FrontCover | null
+  audioFile: Blob,
+  cue: CueSheet,
+  track: Track,
+  frontCover: FrontCover | null,
 }) {
   const args: string[] = []
 

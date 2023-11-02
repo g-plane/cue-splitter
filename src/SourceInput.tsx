@@ -6,8 +6,8 @@ import {
 } from '@fluentui/react-icons'
 import { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
-import { useSplitterStore } from './splitter'
 import FrontCoverResizeDialog from './FrontCoverResizeDialog'
+import { useSplitterStore } from './splitter'
 
 interface Props {
   onCueSheetFileChange(): void
@@ -184,11 +184,9 @@ export default function SourceInput({ onCueSheetFileChange }: Props) {
             <Image24Regular />
             Front Cover Picture
           </Label>
-          {frontCover ? (
-            <Text>{frontCover.name}</Text>
-          ) : (
-            <Text italic>Please choose.</Text>
-          )}
+          {frontCover
+            ? <Text>{frontCover.name}</Text>
+            : <Text italic>Please choose.</Text>}
           <label>
             <input
               className={classes.hidden}

@@ -1,22 +1,22 @@
 import {
-  Dialog,
-  DialogSurface,
-  DialogBody,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-  DialogTrigger,
   Button,
+  Dialog,
+  DialogActions,
+  DialogBody,
+  DialogContent,
+  DialogSurface,
+  DialogTitle,
+  DialogTrigger,
   Input,
+  Label,
+  Link,
   Text,
   makeStyles,
-  Link,
-  Label,
   mergeClasses,
 } from '@fluentui/react-components'
 import { EditRegular } from '@fluentui/react-icons'
 import type { Track } from '@gplane/cue'
-import { useState, type FormEvent } from 'react'
+import { type FormEvent, useState } from 'react'
 import { useSplitterStore } from './splitter'
 import { RE_CV, extractCVs } from './text'
 
@@ -79,7 +79,10 @@ export default function TrackEditDialog({ track }: Props) {
   }
 
   return (
-    <Dialog open={open} onOpenChange={(_, data) => handleOpenChange(data.open)}>
+    <Dialog
+      open={open}
+      onOpenChange={(_, data) => handleOpenChange(data.open)}
+    >
       <DialogTrigger disableButtonEnhancement>
         <Button icon={<EditRegular />}>Edit</Button>
       </DialogTrigger>

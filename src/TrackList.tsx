@@ -1,31 +1,31 @@
 import {
   Button,
-  Table,
-  TableBody,
-  TableCell,
-  TableCellLayout,
-  TableHeader,
-  TableHeaderCell,
-  TableRow,
-  TableSelectionCell,
-  makeStyles,
-  type TableColumnDefinition,
-  createTableColumn,
-  useTableFeatures,
-  useTableSelection,
   Menu,
   MenuItem,
   MenuList,
   MenuPopover,
   MenuTrigger,
   SplitButton,
+  Table,
+  TableBody,
+  TableCell,
+  TableCellLayout,
+  type TableColumnDefinition,
+  TableHeader,
+  TableHeaderCell,
+  TableRow,
+  TableSelectionCell,
+  createTableColumn,
+  makeStyles,
+  useTableFeatures,
+  useTableSelection,
 } from '@fluentui/react-components'
 import { SaveRegular } from '@fluentui/react-icons'
 import type { Track } from '@gplane/cue'
 import { toast } from 'react-toastify'
-import { useSplitterStore } from './splitter'
 import TrackEditDialog from './TrackEditDialog'
 import { saveMultipleAsZip, saveMultipleToFolder, saveSingle } from './saver'
+import { useSplitterStore } from './splitter'
 
 const IS_FS_ACCESS_SUPPORTED = 'showDirectoryPicker' in window
 
@@ -204,9 +204,11 @@ export default function TrackList({
         <TableHeader>
           <TableRow>
             <TableSelectionCell
-              checked={
-                allRowsSelected ? true : someRowsSelected ? 'mixed' : false
-              }
+              checked={allRowsSelected
+                ? true
+                : someRowsSelected
+                ? 'mixed'
+                : false}
               onClick={toggleAllRows}
             />
             <TableHeaderCell>Title</TableHeaderCell>

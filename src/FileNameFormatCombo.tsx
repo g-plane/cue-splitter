@@ -10,8 +10,8 @@ import {
   shorthands,
   useId,
 } from '@fluentui/react-components'
-import { useSplitterStore } from './splitter'
 import { QuestionCircleRegular } from '@fluentui/react-icons'
+import { useSplitterStore } from './splitter'
 
 const options = [
   '%artist% - %title%',
@@ -81,12 +81,12 @@ export default function FileNameFormatCombo() {
                 <code>%albumartist%</code> - album artist
               </li>
               <li>
-                <code>%track%</code> - track number without leading "0", for
-                example "1"
+                <code>%track%</code>{' '}
+                - track number without leading "0", for example "1"
               </li>
               <li>
-                <code>%paddedtrack%</code> - track number with leading "0", for
-                example "01"
+                <code>%paddedtrack%</code>{' '}
+                - track number with leading "0", for example "01"
               </li>
             </ul>
           </PopoverSurface>

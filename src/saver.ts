@@ -1,6 +1,6 @@
 import type { CueSheet, Track } from '@gplane/cue'
 import { Zip, ZipPassThrough } from 'fflate'
-import { splitAudio, type FrontCover } from './splitter'
+import { type FrontCover, splitAudio } from './splitter'
 import { formatFileName } from './text'
 
 export async function saveSingle({
@@ -10,11 +10,11 @@ export async function saveSingle({
   cue,
   frontCover,
 }: {
-  track: Track
-  audioFile: Blob
-  fileNameFormat: string
-  cue: CueSheet
-  frontCover: FrontCover | null
+  track: Track,
+  audioFile: Blob,
+  fileNameFormat: string,
+  cue: CueSheet,
+  frontCover: FrontCover | null,
 }) {
   const file = await splitAudio({
     audioFile,
@@ -42,11 +42,11 @@ export async function saveMultipleToFolder({
   cue,
   frontCover,
 }: {
-  tracks: Track[]
-  audioFile: Blob
-  fileNameFormat: string
-  cue: CueSheet
-  frontCover: FrontCover | null
+  tracks: Track[],
+  audioFile: Blob,
+  fileNameFormat: string,
+  cue: CueSheet,
+  frontCover: FrontCover | null,
 }) {
   const dirHandle = await window.showDirectoryPicker({ mode: 'readwrite' })
 
@@ -81,12 +81,12 @@ export async function saveMultipleAsZip({
   frontCover,
   topLevelFolder,
 }: {
-  tracks: Track[]
-  audioFile: Blob
-  fileNameFormat: string
-  cue: CueSheet
-  frontCover: FrontCover | null
-  topLevelFolder: boolean
+  tracks: Track[],
+  audioFile: Blob,
+  fileNameFormat: string,
+  cue: CueSheet,
+  frontCover: FrontCover | null,
+  topLevelFolder: boolean,
 }) {
   const folderName = normalizeFileName(cue.title ?? 'tracks')
 

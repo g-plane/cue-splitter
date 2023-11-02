@@ -4,9 +4,9 @@ import {
   webLightTheme,
 } from '@fluentui/react-components'
 import { useState } from 'react'
+import FileNameFormatCombo from './FileNameFormatCombo'
 import SourceInput from './SourceInput'
 import TrackList from './TrackList'
-import FileNameFormatCombo from './FileNameFormatCombo'
 
 const useStyles = makeStyles({
   app: {
