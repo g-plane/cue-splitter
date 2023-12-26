@@ -6,8 +6,8 @@ Try it: [https://split.gplane.win](https://split.gplane.win)
 
 ## Motivation
 
-I often download some anime music, but they comes with a big and single audio file with a Cue Sheet file instead of one audio file per track.
-Command line tools are hard to use for me, while there're some GUI applications but they only available on Windows.
+I often download some anime music, but they come with a big and single audio file with a Cue Sheet file instead of one audio file per track.
+Command line tools are hard to use for me, while there're some GUI applications but they're only available on Windows.
 
 My goal is to finish this task in browsers, so everyone can use it without any installation, and it can be platform-agnostic.
 
@@ -15,8 +15,8 @@ My goal is to finish this task in browsers, so everyone can use it without any i
 
 - Customizable file name format with some presets.
 - Track information can be edited before splitting.
-- Single or multiple tracks can be splitted and downloaded. If you selected multiple tracks and you're using Chromium-based browser, you can save them to a local folder without unarchiving a zip file.
-- Character Voice names in artist field will be detected and can be extracted with one click.
+- Single or multiple tracks can be splitted and downloaded. If you selected multiple tracks and you're using Chromium-based browsers, you can save them to a local folder without unarchiving a zip file.
+- Character voice names in artist field will be detected and can be extracted with one click.
 - Dragging and dropping audio file/Cue Sheet file/front cover picture file (or even all of them) to the page is supported.
 
 ## Related Projects
