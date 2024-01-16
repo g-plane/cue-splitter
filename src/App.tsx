@@ -1,8 +1,4 @@
-import {
-  FluentProvider,
-  makeStyles,
-  webLightTheme,
-} from '@fluentui/react-components'
+import { FluentProvider, makeStyles, webLightTheme } from '@fluentui/react-components'
 import { useState } from 'react'
 import FileNameFormatCombo from './FileNameFormatCombo'
 import SourceInput from './SourceInput'

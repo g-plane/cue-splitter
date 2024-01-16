@@ -1,9 +1,5 @@
 import { Button, Label, Text, makeStyles } from '@fluentui/react-components'
-import {
-  AppsList24Regular,
-  Image24Regular,
-  MusicNote224Regular,
-} from '@fluentui/react-icons'
+import { AppsList24Regular, Image24Regular, MusicNote224Regular } from '@fluentui/react-icons'
 import { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 import FrontCoverResizeDialog from './FrontCoverResizeDialog'
@@ -87,9 +83,7 @@ export default function SourceInput({ onCueSheetFileChange }: Props) {
         }
       }
 
-      const frontCoverFile = files.find((file) =>
-        file.type.startsWith('image/')
-      )
+      const frontCoverFile = files.find((file) => file.type.startsWith('image/'))
       if (frontCoverFile) {
         updateFrontCover(frontCoverFile, frontCoverFile.name)
       }

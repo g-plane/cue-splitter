@@ -40,9 +40,7 @@ export const useSplitterStore = create<SplitterState>()((set, get) => ({
     set((state) => (state.cue ? { cue: { ...state.cue, title: album } } : {}))
   },
   updateAlbumArtist: (albumArtist: string) => {
-    set((state) =>
-      state.cue ? { cue: { ...state.cue, performer: albumArtist } } : {}
-    )
+    set((state) => state.cue ? { cue: { ...state.cue, performer: albumArtist } } : {})
   },
   frontCover: null,
   updateFrontCover: async (picture: Blob, name?: string) => {

@@ -29,8 +29,7 @@ import { useSplitterStore } from './splitter'
 
 const IS_FS_ACCESS_SUPPORTED = 'showDirectoryPicker' in window
 
-const messageMissingFrontCover =
-  "You did't choose a front cover image. Do you want to continue?"
+const messageMissingFrontCover = "You did't choose a front cover image. Do you want to continue?"
 
 interface Props {
   selectedTracks: Set<number>
@@ -147,9 +146,7 @@ export default function TrackList({
     try {
       await saveMultipleToFolder({
         audioFile,
-        tracks: firstFile.tracks.filter(({ trackNumber }) =>
-          isRowSelected(trackNumber)
-        ),
+        tracks: firstFile.tracks.filter(({ trackNumber }) => isRowSelected(trackNumber)),
         fileNameFormat,
         cue,
         frontCover,
@@ -181,9 +178,7 @@ export default function TrackList({
     try {
       await saveMultipleAsZip({
         audioFile,
-        tracks: firstFile.tracks.filter(({ trackNumber }) =>
-          isRowSelected(trackNumber)
-        ),
+        tracks: firstFile.tracks.filter(({ trackNumber }) => isRowSelected(trackNumber)),
         fileNameFormat,
         cue,
         frontCover,

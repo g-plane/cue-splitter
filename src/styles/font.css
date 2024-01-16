@@ -2,12 +2,15 @@
   font-family: 'Segoe UI';
   src:
     local('Segoe UI Light'),
-    url(https://c.s-microsoft.com/static/fonts/segoe-ui/west-european/light/latest.woff2)
-    format('woff2'),
-    url(https://c.s-microsoft.com/static/fonts/segoe-ui/west-european/light/latest.woff)
-    format('woff'),
-    url(https://c.s-microsoft.com/static/fonts/segoe-ui/west-european/light/latest.ttf)
-    format('truetype');
+    url(https://c.s-microsoft.com/static/fonts/segoe-ui/west-european/light/latest.woff2) format(
+    'woff2'
+  ),
+    url(https://c.s-microsoft.com/static/fonts/segoe-ui/west-european/light/latest.woff) format(
+    'woff'
+  ),
+    url(https://c.s-microsoft.com/static/fonts/segoe-ui/west-european/light/latest.ttf) format(
+    'truetype'
+  );
   font-weight: 100;
 }
 
@@ -17,10 +20,12 @@
     local('Segoe UI Semilight'),
     url(https://c.s-microsoft.com/static/fonts/segoe-ui/west-european/semilight/latest.woff2)
     format('woff2'),
-    url(https://c.s-microsoft.com/static/fonts/segoe-ui/west-european/semilight/latest.woff)
-    format('woff'),
-    url(https://c.s-microsoft.com/static/fonts/segoe-ui/west-european/semilight/latest.ttf)
-    format('truetype');
+    url(https://c.s-microsoft.com/static/fonts/segoe-ui/west-european/semilight/latest.woff) format(
+    'woff'
+  ),
+    url(https://c.s-microsoft.com/static/fonts/segoe-ui/west-european/semilight/latest.ttf) format(
+    'truetype'
+  );
   font-weight: 200;
 }
 
@@ -28,12 +33,15 @@
   font-family: 'Segoe UI';
   src:
     local('Segoe UI'),
-    url(https://c.s-microsoft.com/static/fonts/segoe-ui/west-european/normal/latest.woff2)
-    format('woff2'),
-    url(https://c.s-microsoft.com/static/fonts/segoe-ui/west-european/normal/latest.woff)
-    format('woff'),
-    url(https://c.s-microsoft.com/static/fonts/segoe-ui/west-european/normal/latest.ttf)
-    format('truetype');
+    url(https://c.s-microsoft.com/static/fonts/segoe-ui/west-european/normal/latest.woff2) format(
+    'woff2'
+  ),
+    url(https://c.s-microsoft.com/static/fonts/segoe-ui/west-european/normal/latest.woff) format(
+    'woff'
+  ),
+    url(https://c.s-microsoft.com/static/fonts/segoe-ui/west-european/normal/latest.ttf) format(
+    'truetype'
+  );
   font-weight: 400;
 }
 
@@ -41,12 +49,15 @@
   font-family: 'Segoe UI';
   src:
     local('Segoe UI Semibold'),
-    url(https://c.s-microsoft.com/static/fonts/segoe-ui/west-european/semibold/latest.woff2)
-    format('woff2'),
-    url(https://c.s-microsoft.com/static/fonts/segoe-ui/west-european/semibold/latest.woff)
-    format('woff'),
-    url(https://c.s-microsoft.com/static/fonts/segoe-ui/west-european/semibold/latest.ttf)
-    format('truetype');
+    url(https://c.s-microsoft.com/static/fonts/segoe-ui/west-european/semibold/latest.woff2) format(
+    'woff2'
+  ),
+    url(https://c.s-microsoft.com/static/fonts/segoe-ui/west-european/semibold/latest.woff) format(
+    'woff'
+  ),
+    url(https://c.s-microsoft.com/static/fonts/segoe-ui/west-european/semibold/latest.ttf) format(
+    'truetype'
+  );
   font-weight: 600;
 }
 
@@ -54,11 +65,14 @@
   font-family: 'Segoe UI';
   src:
     local('Segoe UI Bold'),
-    url(https://c.s-microsoft.com/static/fonts/segoe-ui/west-european/bold/latest.woff2)
-    format('woff2'),
-    url(https://c.s-microsoft.com/static/fonts/segoe-ui/west-european/bold/latest.woff)
-    format('woff'),
-    url(https://c.s-microsoft.com/static/fonts/segoe-ui/west-european/bold/latest.ttf)
-    format('truetype');
+    url(https://c.s-microsoft.com/static/fonts/segoe-ui/west-european/bold/latest.woff2) format(
+    'woff2'
+  ),
+    url(https://c.s-microsoft.com/static/fonts/segoe-ui/west-european/bold/latest.woff) format(
+    'woff'
+  ),
+    url(https://c.s-microsoft.com/static/fonts/segoe-ui/west-european/bold/latest.ttf) format(
+    'truetype'
+  );
   font-weight: 700;
 }
