@@ -3,6 +3,7 @@
   "compilerOptions": {
     "target": "ESNext",
     "forceConsistentCasingInFileNames": true,
+    "module": "ESNext",
     "moduleResolution": "bundler",
     "noEmit": true
   },

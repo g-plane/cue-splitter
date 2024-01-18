@@ -1,6 +1,6 @@
 import { type CueSheet, type Track, parse } from '@gplane/cue'
 import { flac } from 'flac.wasm'
-import produce from 'immer'
+import { produce } from 'immer'
 import { create } from 'zustand'
 
 export interface FrontCover {

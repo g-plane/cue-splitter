@@ -110,7 +110,6 @@ export default function TrackList({
       type: 'info',
       autoClose: false,
       closeButton: false,
-      closeOnClick: false,
     })
     try {
       await saveSingle({
