@@ -120,6 +120,15 @@ export async function splitAudio({
     args.push(`--tag=ALBUM ARTIST=${cue.performer}`)
   }
   args.push(`--tag=TRACKNUMBER=${track.trackNumber}`)
+  const date = cue.comments.find((comment) => comment.startsWith('DATE '))
+  if (date) {
+    args.push(`--tag=DATE=${date.slice(5)}`)
+  }
+  const genre = cue.comments.find((comment) => comment.startsWith('GENRE '))
+  if (genre) {
+    args.push(`--tag=GENRE=${genre.slice(6)}`)
+  }
+
   if (frontCover) {
     args.push(`--picture=${frontCover.name}`)
   }
