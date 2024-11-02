@@ -12,25 +12,25 @@
     "fmt": "dprint fmt"
   },
   "dependencies": {
-    "@fluentui/react-components": "^9.49.2",
-    "@fluentui/react-icons": "^2.0.239",
+    "@fluentui/react-components": "^9.55.1",
+    "@fluentui/react-icons": "^2.0.264",
     "@gplane/cue": "^0.2.0",
     "fflate": "^0.8.2",
-    "flac.wasm": "^0.3.0",
+    "flac.wasm": "^0.4.0",
     "immer": "^10.1.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-toastify": "^10.0.5",
-    "zustand": "^4.5.2"
+    "react-toastify": "^10.0.6",
+    "zustand": "^5.0.1"
   },
   "devDependencies": {
-    "@gplane/tsconfig": "^6.1.0",
-    "@types/react": "^18.3.1",
-    "@types/react-dom": "^18.3.0",
+    "@gplane/tsconfig": "^6.2.0",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
     "@types/wicg-file-system-access": "^2023.10.5",
-    "@vitejs/plugin-react-swc": "^3.6.0",
-    "dprint": "^0.45.1",
-    "typescript": "^5.4.5",
-    "vite": "^5.2.11"
+    "@vitejs/plugin-react-swc": "^3.7.1",
+    "dprint": "^0.47.5",
+    "typescript": "^5.6.3",
+    "vite": "^5.4.10"
   }
 }
